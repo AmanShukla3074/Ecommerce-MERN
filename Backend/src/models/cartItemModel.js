@@ -18,7 +18,7 @@ const cartItemsSchema=new mongoose.Schema({
     quantity:{
         type:Number,
         required:true,
-        default:true
+        default:1
     },
     price:{
         type:Number,
@@ -35,6 +35,6 @@ const cartItemsSchema=new mongoose.Schema({
     }
 })
 
-const CartItems=new mongoose.models("cartItems",cartItemsSchema)
+const CartItems=mongoose.models("cartItems",cartItemsSchema)
 
 module.exports=CartItems;

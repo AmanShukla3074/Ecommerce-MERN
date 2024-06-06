@@ -11,5 +11,13 @@ app.get("/",(req,res)=>{
     return res.status(200).send({msg:"hiii"})
 })
 
+const authRouters=require("./routes/authRoutes")
+app.use("/auth",authRouters)
+
+const usersRouters=require("./routes/userRoutes")
+app.use("/api/users",usersRouters)
+
+
+
 module.exports=app;
 

@@ -9,7 +9,7 @@ const cartSchema=new mongoose.Schema({
     cartItems:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"cartItems",
-        required:true
+        // required:true
     },
     totalPrice:{
         type:Number,
@@ -33,6 +33,6 @@ const cartSchema=new mongoose.Schema({
     },
 })
 
-const Cart=new mongoose.model("cart",cartSchema)
+const Cart=mongoose.model("cart",cartSchema)
 
 module.exports=Cart
