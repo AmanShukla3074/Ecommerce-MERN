@@ -21,6 +21,10 @@ const orderSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"addresses"
     },
+    orderStatus:{
+        type:String,
+        default:"PENDING"
+    },
     paymentDetails:{
         paymentMethod:{
             type:String
@@ -54,7 +58,7 @@ const orderSchema=new mongoose.Schema({
     },
     paymentStatus:{
         type:String,
-        required:true
+        // required:true
     },
     createdAt:{
         type:Date,

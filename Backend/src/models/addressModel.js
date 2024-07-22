@@ -23,7 +23,7 @@ const addressSchema=new mongoose.Schema({
         required:true
     },
     mobile:{
-        type:Numbers,
+        type:Number,
         required:true
     },
     user:{

@@ -1,7 +1,7 @@
 const mongoose= require("mongoose")
 
 const productSchema=new mongoose.Schema({
-    titel:{
+    title:{
         type:String,
         required:true
     },
@@ -22,6 +22,12 @@ const productSchema=new mongoose.Schema({
     quantity:{
         type:Number,
         required:true
+    },
+    brand:{
+        type:String,
+    },
+    color:{
+        type:String,
     },
     sizes:[{
         name:{
@@ -44,7 +50,7 @@ const productSchema=new mongoose.Schema({
     }],
     numRating:{
         type:Number,
-        default:Number
+        default:0
     },
     category:{
         type:mongoose.Schema.Types.ObjectId,
