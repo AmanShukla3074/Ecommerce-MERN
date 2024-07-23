@@ -41,6 +41,9 @@ app.use("/api/reviews",reviewRouter)
 const ratingRouter=require("./routes/ratingRoutes")
 app.use("/api/ratings",ratingRouter)
 
+const addressRouter=require("./routes/addressRoutes")
+app.use("/api/address",addressRouter)
+
 
 
 module.exports=app;

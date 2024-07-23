@@ -2,26 +2,83 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwtProvider = require("../config/jwtProvider");
 
+// const createUser = async (userData) => {
+//   try {
+//     let { firstName, lastName, email, password } = userData;
+
+//     const isUserExist = await User.findOne({ email });
+
+//     if (isUserExist) {
+//       throw new Error("user already register with this email:", email);
+//     }
+
+//     password = await bcrypt.hash(password, 8);
+
+//     const user = await User.create({ firstName, lastName, email, password });
+//     return user;
+//   } catch (error) {
+//     throw new Error(error.message);
+//   }
+// };
 const createUser = async (userData) => {
   try {
-    let { firstName, lastName, email, password } = userData;
+    const { firstName, lastName, email, password } = userData;
+
+    if (!firstName || !lastName || !email || !password) {
+      throw new Error("All fields (firstName, lastName, email, password) are required.");
+    }
 
     const isUserExist = await User.findOne({ email });
 
     if (isUserExist) {
-      throw new Error("user already register with this email:", email);
+      throw new Error(`User already registered with this email: ${email}`);
     }
 
-    password = await bcrypt.hash(password, 8);
+    const hashedPassword = await bcrypt.hash(password, 8);
+    const user = await User.create({ firstName, lastName, email, password: hashedPassword });
 
-    const user = await User.create({ firstName, lastName, email, password });
-
-    console.log("user created", user);
     return user;
+  } catch (error) {
+    console.error('Error creating user:', error.message);
+    throw new Error(error.message);
+  }
+};
+
+const saveOtp = async (email, otp) => {
+  try {
+    const otpExpires = Date.now() + 10 * 60 * 1000; // 10 minutes expiry
+    const result = await User.updateOne({ email }, { otp, otpExpires });
+
+    if (result.matchedCount === 0) {
+      console.log(`No user matched with email: ${email}`);
+    }
+    if (result.modifiedCount === 0) {
+      console.log(`No user updated with email: ${email}`);
+    }
+
+    return result;
   } catch (error) {
     throw new Error(error.message);
   }
 };
+
+const verifyOtp = async (email, otp) => {
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user || user.otp !== otp || user.otpExpires < Date.now()) {
+      return false;
+    }
+
+    // Clear OTP after verification
+    await User.updateOne({ email }, { otp: null, otpExpires: null });
+    return true;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+
 
 const findUserById = async (userId) => {
   try {
@@ -37,13 +94,29 @@ const findUserById = async (userId) => {
     throw new Error(error.message);
   }
 };
+// for notmal user comented for new otp send auth
+// const getUserByEmail = async (email) => {
+//   try { 
+//     const user = await User.findOne({email});
+
+//     if (!user) {
+//       throw new Error("user not found with email:", email);
+//     }
+
+//     return user;
+//   } catch (error) {
+//     throw new Error(error.message);
+//   }
+// };
 
 const getUserByEmail = async (email) => {
   try {
-    const user = await User.findOne(email);
+    console.log("Searching for user with email:", email);
+    const user = await User.findOne( email );
 
     if (!user) {
-      throw new Error("user not found with email:", email);
+      console.log("User not found with email:", email);
+      return null;
     }
 
     return user;
@@ -51,6 +124,7 @@ const getUserByEmail = async (email) => {
     throw new Error(error.message);
   }
 };
+
 
 const userProfileByToken = async (token) => {
   try {
@@ -82,4 +156,6 @@ module.exports = {
   getUserByEmail,
   userProfileByToken,
   getAllUsers,
+  saveOtp,
+  verifyOtp,
 };

@@ -13,17 +13,13 @@ const userSchema=new mongoose.Schema({
         type:String,
         required:true
     },
-    email:{
-        type:String,
-        required:true
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        match: [/\S+@\S+\.\S+/, 'is invalid'],
+        index: true
     },
-    // email: {
-    //     type: String,
-    //     required: true,
-    //     unique: true,
-    //     match: [/\S+@\S+\.\S+/, 'is invalid'],
-    //     index: true
-    // },
     role:{
         type:String,
         required:true,
@@ -40,14 +36,22 @@ const userSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"payment_information"
     }],
-    ratings:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"ratings"
-    }],
-    reviews:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"reviews"
-    }],
+    // ratings:[{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     ref:"ratings"
+    // }],
+    // reviews:[{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     ref:"reviews"
+    // }],
+    otp: {
+        type: String,
+        required: false
+    },
+    otpExpires: {
+        type: Date,
+        required: false
+    },
     createdAt:{
         type:Date,
         default:Date.now()

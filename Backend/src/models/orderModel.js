@@ -19,7 +19,7 @@ const orderSchema=new mongoose.Schema({
     },
     shippingAddress:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"addresses"
+        ref:"address"
     },
     orderStatus:{
         type:String,

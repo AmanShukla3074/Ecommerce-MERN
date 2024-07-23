@@ -1,27 +1,45 @@
 const Address = require("../models/addressModel");
 const OrderItem = require("../models/orderItems");
 const Order = require("../models/orderModel");
+const Product = require("../models/productModel");
 const cartService = require("../services/cartService");
 
 const createOrder = async (user, shippingAddess) => {
   let address;
 
-  if (shippingAddess._id) {
-    let existAddress = await Address.findById(shippingAddess._id);
-    address = existAddress;
-  } else {
-    address = new Address(shippingAddess);
-    address.user = user;
-    await address.save();
+  // if (shippingAddess._id) {
+  //   let existAddress = await Address.findById(shippingAddess._id);
+  //   address = existAddress;
+  // } else {
+  //   address = new Address(shippingAddess);
+  //   address.user = user;
+  //   await address.save();
 
-    user.address.push(address);
-    await user.save();
-  }
+  //   user.address.push(address);
+  //   await user.save();
+  // }
 
   const cart = await cartService.findUserCart(user._id);
   const orderItems = [];
 
   for (const item of cart.cartItems) {
+
+     // Fetch the product and update the stock
+     const product = await Product.findById(item.product);
+
+     const sizeIndex = product.sizes.findIndex(size => size.name === item.size);
+     if (sizeIndex !== -1) {
+       product.sizes[sizeIndex].quantity -= item.quantity;
+       if (product.sizes[sizeIndex].quantity < 0) {
+         throw new Error(`Not enough stock for product ${product.title} in size ${item.size}`);
+       }
+     } else {
+       throw new Error(`Size ${item.size} not found for product ${product.title}`);
+     }
+ 
+     // Save the updated product
+     await product.save();
+
     const orderItem = new OrderItem ({
       product: item.product,
       size: item.size,
@@ -29,7 +47,6 @@ const createOrder = async (user, shippingAddess) => {
       price: item.price,
       discountedPrice: item.discountedPrice,
       userId: item.userId,
-      // deliveryDate:item.deliveryDate,
     });
 
     const createOrderItem = await orderItem.save();
@@ -43,10 +60,11 @@ const createOrder = async (user, shippingAddess) => {
     totalDiscountedPrice: cart.totalDiscountedPrice,
     discount: cart.discount,
     totalItem: cart.totalItems,
-    shippingAddess: address,
+    shippingAddress: shippingAddess._id,
   });
 
   const savedOrder = await createdOrder.save();
+  const clearCart=await cartService.clearUserCart(user._id)
   return savedOrder;
 };
 

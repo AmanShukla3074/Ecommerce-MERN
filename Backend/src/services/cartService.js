@@ -66,4 +66,11 @@ const addCartItem=async(userId,req)=>{
     }
 }
 
-module.exports={createCart,findUserCart,addCartItem}
+
+const clearUserCart=async(userId)=>{
+    let cart=await Cart.findOne({user:userId})
+    await CartItems.deleteMany({cart:cart._id})
+    await Cart.updateOne({user:userId},{$set:{cartItems:[]}}) 
+}
+
+module.exports={createCart,findUserCart,addCartItem,clearUserCart}
