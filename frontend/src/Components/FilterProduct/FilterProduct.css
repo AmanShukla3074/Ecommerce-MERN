@@ -1,0 +1,49 @@
+.filter-product-container {
+  margin: 100px auto;
+  width: 90%;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
+
+.filter-options {
+  width: 22%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  padding: 40px 15px;
+}
+
+.filtered-product {
+  width: 74%;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: auto;
+  gap: 20px;
+}
+
+/* .filter-options p,.filter-options label{
+    font-size: 20px;
+} */
+
+.filter-headings {
+  font-size: 20px;
+  margin: 20px 0 5px;
+}
+
+.color-filter-option input[type="checkbox"],
+.size-filter-option input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: black;
+}
+
+.color-filter-option,
+.size-filter-option {
+  font-size: 20px;
+}
+
+.minDiscount select,
+.sort-price select,
+.product-stock select {
+  width: 50%;
+  padding: 4px 5px;
+}

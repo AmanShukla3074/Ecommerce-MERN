@@ -37,9 +37,12 @@ const productSchema=new mongoose.Schema({
             type:Number,
         },
     }],
-    imgUrl:{
-        type:String,
-    },
+    // imgUrl:{
+    //     type:String,
+    // },
+    imgUrls: [{
+        type: String,
+      }],
     ratings:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"ratings"

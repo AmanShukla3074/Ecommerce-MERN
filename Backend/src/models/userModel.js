@@ -52,10 +52,15 @@ const userSchema=new mongoose.Schema({
         type: Date,
         required: false
     },
-    createdAt:{
-        type:Date,
-        default:Date.now()
-    }
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        expires: 3600,
+      },
+      verified: {
+        type: Boolean,
+        default: false,
+      },
 })
 
 const User = mongoose.model("users",userSchema);

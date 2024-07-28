@@ -4,27 +4,20 @@ const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
 const cartService = require("../services/cartService");
 
-const createOrder = async (user, shippingAddess) => {
-  let address;
+const createOrder = async (user, shippingAddress) => {
 
-  // if (shippingAddess._id) {
-  //   let existAddress = await Address.findById(shippingAddess._id);
-  //   address = existAddress;
-  // } else {
-  //   address = new Address(shippingAddess);
-  //   address.user = user;
-  //   await address.save();
+  const isAddressExist = user.address.includes(shippingAddress._id);
 
-  //   user.address.push(address);
-  //   await user.save();
-  // }
+  if (!isAddressExist) {
+    // If the address is not in the user's address array, add it
+    user.address.push(shippingAddress._id);
+    await user.save();
+  }
 
   const cart = await cartService.findUserCart(user._id);
   const orderItems = [];
 
   for (const item of cart.cartItems) {
-
-     // Fetch the product and update the stock
      const product = await Product.findById(item.product);
 
      const sizeIndex = product.sizes.findIndex(size => size.name === item.size);
@@ -37,7 +30,6 @@ const createOrder = async (user, shippingAddess) => {
        throw new Error(`Size ${item.size} not found for product ${product.title}`);
      }
  
-     // Save the updated product
      await product.save();
 
     const orderItem = new OrderItem ({
@@ -60,7 +52,7 @@ const createOrder = async (user, shippingAddess) => {
     totalDiscountedPrice: cart.totalDiscountedPrice,
     discount: cart.discount,
     totalItem: cart.totalItems,
-    shippingAddress: shippingAddess._id,
+    shippingAddress: shippingAddress._id,
   });
 
   const savedOrder = await createdOrder.save();

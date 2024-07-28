@@ -6,6 +6,7 @@ const app=express()
 app.use(express.json());
 app.use(cors());
 
+// require('./crons/deleteUnverifiedUsers');
 
 app.get("/",(req,res)=>{
     return res.status(200).send({msg:"Hello,This Is MERN Ecommerce website"})

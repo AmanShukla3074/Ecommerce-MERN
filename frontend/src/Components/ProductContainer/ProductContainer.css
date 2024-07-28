@@ -1,0 +1,14 @@
+.productContainerheading{
+    text-align: center;
+    font-size: 40px;
+    margin-top: 80px;
+    font-weight: 700;
+}
+
+.product-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    width: 80%;
+    margin: 20px auto 100px;
+    gap: 20px;
+}
