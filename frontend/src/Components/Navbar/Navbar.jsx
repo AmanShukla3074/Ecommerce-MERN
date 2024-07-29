@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react'
-import './Navbar.css'
+import React, { useEffect, useState } from "react";
+import "./Navbar.css";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegCircleUser } from "react-icons/fa6";
-import logo from "../Imgs/logo-cropped.png"
-import { useLocation } from 'react-router-dom';
+import logo from "../Imgs/logo-cropped.png";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
-  const [navbartransparent,setNavbartransparent]= useState(true)
+  const [navbarTransparent, setNavbarTransparent] = useState(true);
+  const [menMenuOpen, setMenMenuOpen] = useState(false);
+  const [womenMenuOpen, setWomenMenuOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      if (scrollPosition > 100) {
-        setNavbartransparent(false);
-      } else {
-        setNavbartransparent(true);
-      }
+      setNavbarTransparent(scrollPosition <= 100);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -25,29 +23,127 @@ const Navbar = () => {
     };
   }, []);
 
-  const isHome =
-  location.pathname === "/" 
+  const isHome = location.pathname === "/";
 
   return (
-    <div className={`navbar ${navbartransparent && isHome  ? "transparent" : "solid" }`}>
+    <div
+      className={`navbar ${
+        navbarTransparent && isHome ? "transparent" : "solid"
+      }`}
+      onMouseEnter={() => {
+        setNavbarTransparent(false);
+      }}
+      onMouseLeave={() => {
+        setNavbarTransparent(true);
+      }}
+    >
       <div className="navbar-left">
-        <img src={logo} alt="ss" className='nav-logo'/>
+        <Link to="/">
+        <img src={logo} alt="ss" className="nav-logo" />
+        </Link>
       </div>
       <div className="navbar-center">
-        <ul className='naveLinks'>
-            <li>Home</li>
-            <li>Category</li>
-            <li>Men</li>
-            <li>Women</li>
+        <ul className="navLinks-ul">
+          <li className="navLinks"><Link to="/">Home</Link></li>
+          <li
+            onMouseEnter={() => setMenMenuOpen(true)}
+            onMouseLeave={() => setMenMenuOpen(false)}
+            className="navLinks"
+          >
+            Men
+            {menMenuOpen && (
+              <div className="mega-menu">
+                <div className="submenu-column">
+                  <h3>Topwear</h3>
+                  <ul>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_tshirt"}> T-Shirts </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_shirts"}> Shirts </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_sweatshirts_hoodies"}> Sweatshirts & Hoodies </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_jackets"}> Jackets </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_sweaters"}> Sweaters </Link></li>
+                  </ul>
+                </div>
+                <div className="submenu-column">
+                  <h3>Bottomwear</h3>
+                  <ul>
+                    
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_joggers"}> Joggers </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_jeans"}> Jeans </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_cargos"}> Cargos </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_trousers_pants"}> Trousers & Pants </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_shorts"}> Shorts </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_boxers"}> Boxers </Link></li>
+                  </ul>
+                </div>
+                <div className="submenu-column">
+                  <h3>Accessories</h3>
+                  <ul>
+                    
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_watches"}> Watches </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_bracelets"}> Bracelets </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_sunglasses"}> Sunglasses </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_caps"}> Caps </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_bags"}> Bags </Link></li>
+                  <li onClick={()=>{setMenMenuOpen(false)}}><Link to={"/category/men_belts"}> Belts </Link></li>
+                  </ul>
+                </div>
+              </div>
+            )}
+          </li>
+          <li
+            onMouseEnter={() => setWomenMenuOpen(true)}
+            onMouseLeave={() => setWomenMenuOpen(false)}
+            className="navLinks"
+          >
+            Women
+            {womenMenuOpen && (
+              <div className="mega-menu">
+                <div className="submenu-column">
+                  <h3>Topwear</h3>
+                  <ul>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_dresses"}> Dresses </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_tops"}> Tops </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_tshirt"}> T-Shirts </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_shirts"}> Shirts </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_sweaters"}> Sweaters </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_jackets"}> Jackets </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_hoodies"}> Hoodies </Link></li>
+                  </ul>
+                </div>
+                <div className="submenu-column">
+                  <h3>Bottomwear</h3>
+                  <ul>
+                    <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_jeans"}> Jeans </Link></li>
+                    <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_leggings"}> Leggings </Link></li>
+                    <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_skirts"}> Skirts </Link></li>
+                    <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_pants"}> Pants </Link></li>
+                    <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_shorts"}> Shorts </Link></li>
+                    <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_joggers"}> Joggers </Link></li>
+                  </ul>
+                </div>
+                <div className="submenu-column">
+                  <h3>Accessories</h3>
+                  <ul>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_watches"}> Watches </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_bracelets"}> Bracelets </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_sunglasses"}> Sunglasses </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_handbags"}> Handbags </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_scarves"}> Scarves </Link></li>
+                  <li onClick={()=>{setWomenMenuOpen(false)}}><Link to={"/category/women_hats"}> Hats </Link></li>
+                  </ul>
+                </div>
+              </div>
+            )}
+          </li>
         </ul>
       </div>
       <div className="navbar-right">
-        <IoCartOutline className='cart-icon'/>
-        <FaRegCircleUser className='user-icon'/>
+        <IoCartOutline className="cart-icon" />
+        <FaRegCircleUser className="user-icon" />
         <button className="navbar-right-btn">Login</button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

@@ -19,7 +19,6 @@ const {
   discountPercent,
   sizes,
   imgUrls}=product;
-  console.log(sizes)
 
   return (
     <Link to={`/product/${_id}`}  className="product-item-link ">

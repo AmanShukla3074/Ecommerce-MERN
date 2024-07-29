@@ -1,52 +1,111 @@
-.navbar{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    /* background-color: aqua; */
-    padding: 0 50px;
-    font-size: 20px;
-    z-index: 12;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    /* background: transparent; */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 50px;
+  font-size: 20px;
+  z-index: 12;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .navbar.transparent {
-    background-color: transparent;
-  }
-  
-  .navbar.solid {
-    background-color: #ebd4f6;
-  }
-
-.naveLinks{
-    list-style-type: none;
-    display:flex;
+  background-color: transparent;
 }
 
-.nav-logo{
-    height: 70px;
+.navbar.solid {
+  background-color: #ebd4f6;
 }
 
-.naveLinks li,.navbar-right-btn{
-    padding: 0 10px;
+.navLinks-ul {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+  margin: 0;
 }
 
-.navbar-right{
-    display: flex;
-    align-items: center;
+.nav-logo {
+  height: 70px;
 }
 
-.navbar-right-btn{
-    font-size: 22px;
-    margin-right: 10px;
-    background: none;
-    border:none;
+.navbar-right-btn {
+  padding: 0 10px;
 }
 
-.cart-icon,.user-icon{
-    font-size: 25px;
-    margin-right: 10px;
+.navLinks {
+  padding: 0 10px;
+  position: relative;
+  height: 75px;
+  display: flex;
+  align-items: center;
+}
+
+.navLinks a {
+  color: black;
+  text-decoration: none;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-right-btn {
+  font-size: 22px;
+  margin-right: 10px;
+  background: none;
+  border: none;
+}
+
+.cart-icon,
+.user-icon {
+  font-size: 25px;
+  margin-right: 10px;
+}
+
+.mega-menu {
+  display: flex;
+  position: absolute;
+  top: 73px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 20px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+}
+
+.submenu-column {
+  flex: 1;
+  margin: 0 50px;
+  width: 30%;
+}
+
+.submenu-column h3 {
+  margin: 0 0 10px;
+  font-size: 18px;
+}
+
+.submenu-column ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.submenu-column ul li {
+  margin-bottom: 5px;
+}
+
+.submenu-column ul li a {
+  color: black;
+  text-decoration: none;
+}
+
+.submenu-column ul li a:hover {
+  text-decoration: underline;
+}
+
+.navLinks:hover .mega-menu {
+  display: flex;
 }

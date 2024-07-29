@@ -13,13 +13,42 @@
 }
 
 .filtered-product {
-  width: 74%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   margin: auto;
   gap: 20px;
 }
 
+.filtered-product-container{
+  width: 74%;
+}
+
+.filtered-product-header{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filtered-product-heading{
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.sort-price{
+  display: flex;
+  align-items: center;
+}
+
+.sort-filter-header{
+  font-size: 20px;
+  margin: 0 10px ;
+}
+
+.sort-price select{
+  width: 200px;
+  padding: 4px 5px;
+  font-size: 16px;
+}
 /* .filter-options p,.filter-options label{
     font-size: 20px;
 } */
@@ -42,8 +71,37 @@
 }
 
 .minDiscount select,
-.sort-price select,
+/* .sort-price select, */
 .product-stock select {
   width: 50%;
   padding: 4px 5px;
+}
+
+
+.pagination{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.pageNum{
+  width: 25px;
+  height: 25px;
+  padding: 5px;
+  border: 1px solid black;
+  text-align: center;
+  margin-right: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pageNum:hover{
+  background-color: #ebd4f6;
+  color: black;
+}
+
+.currentPageNum{
+  background-color: #ebd4f6;
+  color: black;
 }

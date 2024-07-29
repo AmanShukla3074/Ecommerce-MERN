@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./FilterProduct.css";
-// import Item from '../Item/Item'
 import axios from "axios";
 import Item from "../Item/Item";
 const FilterProduct = (props) => {
@@ -13,8 +12,10 @@ const FilterProduct = (props) => {
   const [sort, setSort] = useState(undefined);
   const [stock, setStock] = useState(undefined);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pageSize, setPageSize] = useState(12);
+  const [pageSize, setPageSize] = useState(3);
   const category = props.category;
+  const heading = props.heading;
+  let pages=[];
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -72,11 +73,22 @@ const FilterProduct = (props) => {
     });
   };
 
+
+  for (let i = 1; i <= product.totalPages; i++) {
+    pages.push(i)
+  }
+
   const handleminPriceChange = (event) => setMinPrice(event.target.value);
   const handlemaxPriceChange = (event) => setMaxPrice(event.target.value);
   const handleMinDiscountChange = (event) => setMinDiscount(event.target.value);
   const handlesortChange = (event) => setSort(event.target.value);
   const handlestockChange = (event) => setStock(event.target.value);
+
+
+  const handlePageChange = (page) =>{
+    setPageNumber(page)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return (
     <div className="filter-product-container">
@@ -119,7 +131,7 @@ const FilterProduct = (props) => {
             <input
               type="checkbox"
               value="L"
-              checked={colors.includes("L")}
+              checked={sizes.includes("L")}
               onChange={handleSizeChange}
             />
             L
@@ -180,14 +192,14 @@ const FilterProduct = (props) => {
             <option value="60">60%</option>
           </select>
         </div>
-        <div className="sort-price">
+        {/* <div className="sort-price">
           <p className="filter-headings">Sort Price:</p>
           <select value={sort} onChange={handlesortChange}>
             <option value="">None</option>
             <option value="price_high">Price:High to Low</option>
             <option value="price_low">Price:Low to High</option>
           </select>
-        </div>
+        </div> */}
         <div className="product-stock">
           <p className="filter-headings">Stock:</p>
           <select value={stock} onChange={handlestockChange}>
@@ -197,14 +209,34 @@ const FilterProduct = (props) => {
           </select>
         </div>
       </div>
-      <div className="filtered-product">
-        {product.content && product.content.length > 0 ? (
-          product.content.map((item) => (
-            <Item product={item} key={item._id} />
+      <div className="filtered-product-container">
+        <div className="filtered-product-header">
+          <div className="filtered-product-heading">{heading}</div>
+          <div className="sort-price">
+            <p className="sort-filter-header">Sort By:</p>
+            <select value={sort} onChange={handlesortChange}>
+              <option value="">Featured</option>
+              <option value="price_high">Price:High to Low</option>
+              <option value="price_low">Price:Low to High</option>
+            </select>
+          </div>
+        </div>
+        <div className="filtered-product">
+          {product.content && product.content.length > 0 ? (
+            product.content.map((item) => (
+              <Item product={item} key={item._id} />
+            ))
+          ) : (
+            <p>no product found</p>
+          )}
+        </div>
+        <div className="pagination">
+          {pages.length>0 && pages.map((page,index)=>(
+            
+            <div className={`pageNum ${page==pageNumber?"currentPageNum":""}`} key={index} onClick={()=>{handlePageChange(page)}} >{page}</div>
           ))
-        ) : (
-          <p>no product found</p>
-        )}
+          }
+        </div>
       </div>
     </div>
   );

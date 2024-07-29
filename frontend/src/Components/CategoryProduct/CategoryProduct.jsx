@@ -1,10 +1,10 @@
 import React from 'react'
 import FilterProduct from '../FilterProduct/FilterProduct'
 
-const CategoryProduct = (props) => {
+const CategoryProduct = ({heading,category}) => {
   return (
     <div>
-      <FilterProduct category={props.category}/>
+      <FilterProduct category={category} heading={heading}/>
     </div>
   )
 }
