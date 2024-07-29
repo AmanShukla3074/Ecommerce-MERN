@@ -13,7 +13,7 @@ const Item = ({product}) => {
 // }) => {
 const {  
   _id,
-  name,
+  title,
   price,
   discountedPrice,
   discountPercent,
@@ -28,7 +28,7 @@ const {
       </div>
       <div className="product-item-info">
         <div className="product-title">
-          <p className="prod-title">{name}</p>
+          <p className="prod-title">{title}</p>
         </div>
         <div className="product-price-info">
           <span className="product-discountedPrice">

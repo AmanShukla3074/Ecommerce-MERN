@@ -207,14 +207,14 @@ const getAllProduct = async (reqQuery) => {
   }
 
   if (color) {
-      const colorSet = new Set(color.split(",").map((color) => color.trim().toLowerCase()));
-      const colorRegex = colorSet.size > 0 ? new RegExp([...colorSet].join("|"), "i") : null;
-      query = query.where("color").regex(colorRegex);
+    const colorArray = Array.isArray(color) ? color : color.split(",");
+    query = query.where("color").in(colorArray.map((color) => color.trim().toLowerCase()));
   }
 
+
   if (sizes) {
-      const sizesSet = new Set(sizes.split(","));
-      query = query.where("sizes.name").in([...sizesSet]);
+    const sizesArray = Array.isArray(sizes) ? sizes : sizes.split(",");
+    query = query.where("sizes.name").in(sizesArray.map((size) => size.trim()));
   }
 
   if (minPrice && maxPrice) {

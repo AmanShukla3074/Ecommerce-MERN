@@ -23,6 +23,22 @@
   width: 74%;
 }
 
+.filter-header{
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+
+.filter-header-title{
+  font-size: 27px;
+  font-weight: 600;
+  margin:0 10px 0 0;
+}
+
+.filter-header-icon{
+  font-size: 25px;
+}
+
 .filtered-product-header{
   display: flex;
   justify-content: space-between;
@@ -43,6 +59,7 @@
   font-size: 20px;
   margin: 0 10px ;
 }
+
 
 .sort-price select{
   width: 200px;
@@ -104,4 +121,30 @@
 .currentPageNum{
   background-color: #ebd4f6;
   color: black;
+}
+
+.horizontal-slider {
+  width: 90%; 
+  height: 20px;
+  position: relative;
+}
+
+.horizontal-slider .track {
+  background: #ddd;
+  height: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 2px;
+}
+
+.horizontal-slider .thumb {
+  height: 20px;
+  width: 20px;
+  background: #000;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  border: 2px solid white; 
 }
