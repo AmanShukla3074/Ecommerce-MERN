@@ -190,12 +190,17 @@ const getAllProduct = async (reqQuery) => {
       stock,
       pageNumber,
       pageSize,
+      searchQry
   } = reqQuery;
 
   pageSize = pageSize || 10;
   pageNumber = pageNumber || 1;
 
   let query = Product.find().populate("category");
+
+  if(searchQry){
+    query = query.where("title").regex(new RegExp(searchQry, "i"));
+  }
 
   if (category) {
       const existCategory = await Category.findOne({ name: category }).exec();

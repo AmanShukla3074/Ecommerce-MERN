@@ -55,7 +55,10 @@ function App() {
       <Route path="category/women_sunglasses" element={<CategoryProductPage category="women_sunglasses" heading="Women's Sunglasses"/>} />
       <Route path="category/women_handbags" element={<CategoryProductPage category="women_handbags" heading="Women's Handbags"/>} />
       <Route path="category/women_scarves" element={<CategoryProductPage category="women_scarves" heading="Women's Scarves"/>} />
-      <Route path="category/women_hats" element={<CategoryProductPage category="women_hats" heading="Women's Hats"/>} />
+      
+      
+      {/* Search  */}
+      <Route path="search/:qry" element={<CategoryProductPage />} />
 
     </Routes>
     </Router>

@@ -9,6 +9,7 @@
   top: 0;
   left: 0;
   right: 0;
+  transition: 0.3s ease;
 }
 
 .navbar.transparent {
@@ -17,6 +18,7 @@
 
 .navbar.solid {
   background-color: #ebd4f6;
+  /* transition: background-color 0.3s ease; */
 }
 
 .navLinks-ul {
@@ -30,9 +32,7 @@
   height: 70px;
 }
 
-.navbar-right-btn {
-  padding: 0 10px;
-}
+
 
 .navLinks {
   padding: 0 10px;
@@ -50,13 +50,22 @@
 .navbar-right {
   display: flex;
   align-items: center;
+  position: relative;
 }
+/* 
+.search-box{
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+} */
 
 .navbar-right-btn {
   font-size: 22px;
   margin-right: 10px;
   background: none;
   border: none;
+  padding: 0 10px;
 }
 
 .cart-icon,
@@ -109,3 +118,48 @@
 .navLinks:hover .mega-menu {
   display: flex;
 }
+
+.search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-left: 20px; /* Space between search box and other elements */
+}
+
+.search-icon {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 10px; /* Space between search icon and input field */
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  margin-right: 20px;
+  right: 50%;
+}
+
+.search-form input {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  width: 250px; /* Adjust width as needed */
+}
+
+.search-form button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  /* margin-left: 5px; */
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+/* .search-form button:hover {
+  background-color: rgb(245, 48, 189);
+  color: white;
+} */

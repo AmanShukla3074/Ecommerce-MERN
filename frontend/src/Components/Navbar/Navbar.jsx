@@ -3,14 +3,19 @@ import "./Navbar.css";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegCircleUser } from "react-icons/fa6";
 import logo from "../Imgs/logo-cropped.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { CiSearch } from "react-icons/ci";
+import { IoMdClose } from "react-icons/io";
 
 const Navbar = () => {
   const [navbarTransparent, setNavbarTransparent] = useState(true);
   const [menMenuOpen, setMenMenuOpen] = useState(false);
   const [womenMenuOpen, setWomenMenuOpen] = useState(false);
-  const location = useLocation();
+  const [searchBox, setSearchBox] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
+  const location = useLocation();
+  const navigation = useNavigate()
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -24,7 +29,20 @@ const Navbar = () => {
   }, []);
 
   const isHome = location.pathname === "/";
+  const handleSearchBoxToggle = () => {
+    setSearchBox(!searchBox);
+  };
 
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    navigation(`/search/${searchQuery}`)
+    console.log("Search query:", searchQuery);
+  };
+  
   return (
     <div
       className={`navbar ${
@@ -33,7 +51,7 @@ const Navbar = () => {
       onMouseEnter={() => {
         setNavbarTransparent(false);
       }}
-      onMouseLeave={() => {
+      onMouseLeave={() => {window.scrollY<=100 &&
         setNavbarTransparent(true);
       }}
     >
@@ -137,7 +155,28 @@ const Navbar = () => {
           </li>
         </ul>
       </div>
+      
       <div className="navbar-right">
+      <div className="search-container">
+          {/* <button className="search-icon" onClick={handleSearchBoxToggle}>
+            {searchBox ? <IoMdClose /> : <CiSearch />}
+          </button> */}
+          {searchBox && (
+            <form className="search-form" onSubmit={handleSearchSubmit}>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="Search..."
+              />
+              <button type="submit">Search</button>
+            </form>
+          )}
+          
+            {searchBox ? <IoMdClose className="search-icon" onClick={handleSearchBoxToggle}/> : <CiSearch className="search-icon" onClick={handleSearchBoxToggle}/>}
+          
+        </div>
+      {/* <div className="navbar-right"> */}
         <IoCartOutline className="cart-icon" />
         <FaRegCircleUser className="user-icon" />
         <button className="navbar-right-btn">Login</button>

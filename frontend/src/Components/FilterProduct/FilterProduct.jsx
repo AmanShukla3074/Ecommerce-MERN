@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./FilterProduct.css";
 import axios from "axios";
 import Item from "../Item/Item";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import queryString from "query-string";
 import ReactSlider from "react-slider";
 import { FiFilter } from "react-icons/fi";
@@ -21,7 +21,7 @@ const FilterProduct = (props) => {
   const category = props.category;
   const heading = props.heading;
   let pages = [];
-
+  const {qry}=useParams()
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -49,6 +49,7 @@ const FilterProduct = (props) => {
       try {
         const response = await axios.get("http://localhost:5001/api/product", {
           params: {
+            searchQry:qry,
             color: colors.length > 0 ? colors : undefined,
             sizes: sizes.length > 0 ? sizes : undefined,
             minPrice: priceRange[0],
@@ -70,6 +71,7 @@ const FilterProduct = (props) => {
 
     fetchProduct();
   }, [
+    qry,
     colors,
     sizes,
     priceRange,
