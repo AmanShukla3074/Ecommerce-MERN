@@ -6,6 +6,7 @@ import logo from "../Imgs/logo-cropped.png";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
 
 const Navbar = () => {
   const [navbarTransparent, setNavbarTransparent] = useState(true);
@@ -16,6 +17,11 @@ const Navbar = () => {
 
   const location = useLocation();
   const navigation = useNavigate()
+
+  const dispatch = useDispatch()
+
+  const {userCredentialsData,isAuthenticated}=useSelector((state)=>state.auth)
+  
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
@@ -178,8 +184,9 @@ const Navbar = () => {
         </div>
       {/* <div className="navbar-right"> */}
         <IoCartOutline className="cart-icon" />
-        <FaRegCircleUser className="user-icon" />
-        <button className="navbar-right-btn">Login</button>
+        {/* <FaRegCircleUser className="user-icon" />
+        <button className="navbar-right-btn" onClick={()=>{navigation('/register')}}>Login</button> */}
+        { isAuthenticated ?  <FaRegCircleUser className="user-icon" />: <button className="navbar-right-btn" onClick={()=>{navigation('/login')}}>Login</button>}
       </div>
     </div>
   );

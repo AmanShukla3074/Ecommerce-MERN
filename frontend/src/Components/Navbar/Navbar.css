@@ -66,6 +66,7 @@
   background: none;
   border: none;
   padding: 0 10px;
+  cursor: pointer;
 }
 
 .cart-icon,
