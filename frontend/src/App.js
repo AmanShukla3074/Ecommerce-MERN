@@ -4,17 +4,26 @@ import {BrowserRouter as Router,Route,Routes} from 'react-router-dom'
 import HomePage from './Pages/HomePage';
 import ProductDetailsPage from './Pages/ProductDetailsPage';
 import CategoryProductPage from './Pages/CategoryProductPage';
-import {Provider} from 'react-redux'
+import {Provider, useDispatch} from 'react-redux'
 import { store } from './redux/store';
 import Register from './Components/Auth/Register';
 import RegisterOTP from './Components/Auth/RegisterOTP';
 import Login from './Components/Auth/Login';
 import LoginOTP from './Components/Auth/LoginOTP';
+import Cart from './Components/Cart/Cart';
+import { fetchCart } from './features/cart/cartSlice';
+import { useEffect } from 'react';
 
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchCart());
+  }, [dispatch]);
   return (
-    <Provider store={store}>
+  <>
+     {/* <Provider store={store}> */}
     <Router>
     <Navbar/>
     <Routes>
@@ -23,6 +32,9 @@ function App() {
       <Route path='/register-otpVerify' element={<RegisterOTP/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/login-otpVerify' element={<LoginOTP/>}></Route>
+
+
+      <Route path='/cart' element={<Cart/>}></Route>
 
 
       <Route path="product/:productId" element={<ProductDetailsPage />} />
@@ -76,7 +88,8 @@ function App() {
 
     </Routes>
     </Router>
-    </Provider>
+    {/* </Provider> */}
+    </>
   );
 }
 

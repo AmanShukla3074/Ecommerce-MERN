@@ -37,21 +37,30 @@ export const loginUserverify=createAsyncThunk('loginUserverify',async(userData,t
         return thunkAPI.rejectWithValue(error.response.data)
     }
 })
-
-const initialState = {
-    user:null,
-    userCredentialsData:null,
-    isLoading:false,
-    isAuthenticated:false,
-    error:null,
-}
+ 
 const loadUserFromLocalStorage = () => {
-    const jwt = localStorage.getItem("user");
-    if (jwt) {
-        const user = JSON.parse(jwt);
-        return { isAuthenticated: true, user };
+    const userJson = localStorage.getItem("user");
+    
+    if (userJson) {
+        try {
+            const user = JSON.parse(userJson);
+            return { isAuthenticated: true, user };
+        } catch (error) {
+            console.error("Failed to parse user data:", error);
+            return { isAuthenticated: false, user: null };
+        }
     }
     return { isAuthenticated: false, user: null };
+}
+
+const initialState = {
+    user: null,
+    userCredentialsData: null,
+    isLoading: false,
+    isAuthenticated: false,
+    error: null,
+    jwt: null,
+    ...loadUserFromLocalStorage()
 };
 
 const authReducer = createSlice({
@@ -71,7 +80,6 @@ const authReducer = createSlice({
             state.error=null
         }
     },
-    //extra reducers
     extraReducers:(builder)=>{
         builder
         .addCase(registerUser.pending,(state)=>{
@@ -91,11 +99,13 @@ const authReducer = createSlice({
         .addCase(registerUserverify.pending,(state)=>{
             state.isLoading=true;
         })
-        .addCase(registerUserverify.fulfilled,(state,action)=>{
-            state.isLoading=false;
-            state.isAuthenticated=true;
-            state.user=action.payload;
-            localStorage.setItem("user",JSON.stringify(action.payload.jwt));
+
+        .addCase(registerUserverify.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isAuthenticated = true;
+            state.user = action.payload;
+            state.jwt = action.payload.token;
+            localStorage.setItem("user", JSON.stringify(action.payload));
         })
         .addCase(registerUserverify.rejected,(state,action)=>{
             state.isLoading=false;
@@ -119,11 +129,13 @@ const authReducer = createSlice({
         .addCase(loginUserverify.pending,(state)=>{
             state.isLoading=true;
         })
-        .addCase(loginUserverify.fulfilled,(state,action)=>{
-            state.isLoading=false;
-            state.isAuthenticated=true;
-            state.user=action.payload;
-            localStorage.setItem("user",JSON.stringify(action.payload.jwt));
+       
+        .addCase(loginUserverify.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isAuthenticated = true;
+            state.user = action.payload;
+            state.jwt = action.payload.token;
+            localStorage.setItem("user", JSON.stringify(action.payload));
         })
         .addCase(loginUserverify.rejected,(state,action)=>{
             state.isLoading=false;

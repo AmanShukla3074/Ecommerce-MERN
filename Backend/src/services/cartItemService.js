@@ -63,6 +63,17 @@ const removeCartItem = async (userId, cartItemId) => {
   }
 };
 
+const findProductInCart=async(userId,productId)=>{
+  const cartItem=await CartItems.findOne({product:productId,userId}).populate("product");
+  if (cartItem){
+    return cartItem
+  }
+  else{
+    return []
+    // throw new Error("can't find this cart item");
+  }
+}
+
 const findCartItemById = async (cartItemId) => {
   const cartItem = await CartItems.findById(cartItemId).populate("product");
   if (cartItem) {
@@ -76,4 +87,5 @@ module.exports = {
   updateCartItem,
   removeCartItem,
   findCartItemById,
+  findProductInCart
 };

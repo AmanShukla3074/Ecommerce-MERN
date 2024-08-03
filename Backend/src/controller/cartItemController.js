@@ -24,7 +24,18 @@ const removeCartItem = async (req, res) => {
   }
 };
 
+const findProductInCart = async (req, res) => {
+  const user = req.user;
+  try {
+    const cartData=await cartItemService.findProductInCart(user._id, req.params.id);
+    return res.status(200).send(cartData);
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
 module.exports = {
   updateCartItem,
   removeCartItem,
+  findProductInCart
 };

@@ -160,7 +160,20 @@
   cursor: pointer;
 }
 
-/* .search-form button:hover {
-  background-color: rgb(245, 48, 189);
-  color: white;
-} */
+.cart-icon-container{
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.cart-item-count{
+  position: absolute;
+  top: -25px;
+  right: 0px;
+  font-size: 13px;
+  background: red;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  text-align: center;
+}

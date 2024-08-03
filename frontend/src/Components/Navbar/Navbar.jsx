@@ -19,7 +19,7 @@ const Navbar = () => {
   const navigation = useNavigate()
 
   const dispatch = useDispatch()
-
+  const totalItems = useSelector((state) => state.cart.totalItems);
   const {userCredentialsData,isAuthenticated}=useSelector((state)=>state.auth)
   
   useEffect(() => {
@@ -164,9 +164,6 @@ const Navbar = () => {
       
       <div className="navbar-right">
       <div className="search-container">
-          {/* <button className="search-icon" onClick={handleSearchBoxToggle}>
-            {searchBox ? <IoMdClose /> : <CiSearch />}
-          </button> */}
           {searchBox && (
             <form className="search-form" onSubmit={handleSearchSubmit}>
               <input
@@ -182,10 +179,9 @@ const Navbar = () => {
             {searchBox ? <IoMdClose className="search-icon" onClick={handleSearchBoxToggle}/> : <CiSearch className="search-icon" onClick={handleSearchBoxToggle}/>}
           
         </div>
-      {/* <div className="navbar-right"> */}
-        <IoCartOutline className="cart-icon" />
-        {/* <FaRegCircleUser className="user-icon" />
-        <button className="navbar-right-btn" onClick={()=>{navigation('/register')}}>Login</button> */}
+        <div className="cart-icon-container">
+        <IoCartOutline className="cart-icon" onClick={()=>{navigation("/cart")}}/> <p className="cart-item-count">{totalItems}</p>
+        </div>
         { isAuthenticated ?  <FaRegCircleUser className="user-icon" />: <button className="navbar-right-btn" onClick={()=>{navigation('/login')}}>Login</button>}
       </div>
     </div>

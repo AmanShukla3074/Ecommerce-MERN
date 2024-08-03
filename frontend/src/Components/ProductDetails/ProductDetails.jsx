@@ -1,54 +1,98 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./ProductDetails.css";
+import { addItemToCart } from "../../features/cart/cartSlice";
+import { useDispatch } from "react-redux";
+
 const ProductDetails = () => {
   const { productId } = useParams();
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [mainImg, setMainImg] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
-  // console.log(mainImg)
+  const [inCart, setInCart] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProductData = async () => {
       try {
-        let response = await axios.get(
+        const response = await axios.get(
           `http://localhost:5001/api/product/id/${productId}`
         );
         setData(response.data);
         setMainImg(response.data.imgUrls[0]);
         setSelectedSize(response.data.sizes[0].name);
+        console.log("Fetched product data:", response.data);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching product data:", error);
       }
     };
-    fetchData();
+
+    fetchProductData();
   }, [productId]);
-  console.log(data);
+
+  useEffect(() => {
+    const checkIfInCart = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/api/cart_items/${productId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        console.log("Cart API response:", response.data);
+
+        // Directly check the object properties
+        if (response.data && response.data.size === selectedSize) {
+          setInCart(true);
+        } else {
+          setInCart(false);
+        }
+      } catch (error) {
+        console.error("Error checking cart status:", error);
+      }
+    };
+
+    if (data && token) {
+      checkIfInCart();
+    }
+  }, [selectedSize, data, productId, token]);
 
   const changeMainImg = (img) => {
     setMainImg(img);
   };
 
-  const changeSelecetedSize = (size) => {
+  const changeSelectedSize = (size) => {
     setSelectedSize(size);
+    console.log("Selected size changed to:", size);
+  };
+
+  const handleAddItem = async () => {
+    try {
+      await dispatch(addItemToCart({ productId, size: selectedSize }));
+      console.log("Added item to cart:", { productId, size: selectedSize });
+      setInCart(true); // Change button to "GO TO CART" after adding
+    } catch (error) {
+      console.error("Error adding item to cart:", error);
+    }
   };
 
   return (
     <div className="product-details-main">
       <div className="product-details-img-container">
         <div className="product-img-gallery">
-          {data.imgUrls &&
-            data.imgUrls.map((img, index) => {
-              return (
-                <img
-                  key={index}
-                  src={img}
-                  alt="Product Image"
-                  className="product-img-gallery-images"
-                  onClick={() => changeMainImg(img)}
-                />
-              );
-            })}
+          {data?.imgUrls &&
+            data.imgUrls.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt="Product Image"
+                className="product-img-gallery-images"
+                onClick={() => changeMainImg(img)}
+              />
+            ))}
         </div>
 
         <div className="product-main-img">
@@ -56,46 +100,48 @@ const ProductDetails = () => {
         </div>
       </div>
       <div className="product-details-container">
-        <p className="product-brand">{data.brand}</p>
-        <p className="product-details-title">{data.title}</p>
+        <p className="product-brand">{data?.brand}</p>
+        <p className="product-details-title">{data?.title}</p>
         <div className="product-price-details">
           <span className="product-details-discountedPrice">
             {"\u20B9"}
-            {data.discountedPrice}
+            {data?.discountedPrice}
           </span>
           <span className="product-details-price">
             {"\u20B9"}
-            {/* {"M.R.P. \u20B9"} */}
-            {data.price}
+            {data?.price}
           </span>
-          <span className="product-details-discountPercent">{`(${data.discountPercent}% off)`}</span>
+          <span className="product-details-discountPercent">{`(${data?.discountPercent}% off)`}</span>
         </div>
         <div className="color-container">
           <span className="product-color-text">Color:</span>
-          <div className="color-info"  style={{ backgroundColor: data.color }}></div>
+          <div className="color-info" style={{ backgroundColor: data?.color }}></div>
         </div>
         <div className="product-details-sizes-container">
           Size: {selectedSize}
           <div className="product-details-sizes">
-          {data.sizes &&
-            data.sizes.map((size) => {
-              return (
+            {data?.sizes &&
+              data.sizes.map((size) => (
                 <div
-                  className={`product-detail-size  ${selectedSize === size.name ? 'selected' : ''}`}
+                  className={`product-detail-size ${selectedSize === size.name ? 'selected' : ''}`}
                   key={size._id}
-                  onClick={() => {
-                    changeSelecetedSize(size.name);
-                  }}
-                  
+                  onClick={() => changeSelectedSize(size.name)}
                 >
                   {size.name}
                 </div>
-              );
-            })}
-            </div>
+              ))}
+          </div>
         </div>
-        <div className="add-to-cart-btn">ADD TO CART</div>
-        <div className="product-description">Description : {data.description}</div>
+        {inCart ? (
+          <div className="add-to-cart-btn" onClick={() => navigate('/cart')}>
+            GO TO CART
+          </div>
+        ) : (
+          <div className="add-to-cart-btn" onClick={handleAddItem}>
+            ADD TO CART
+          </div>
+        )}
+        <div className="product-description">Description : {data?.description}</div>
       </div>
     </div>
   );
