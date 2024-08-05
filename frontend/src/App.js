@@ -13,6 +13,7 @@ import LoginOTP from './Components/Auth/LoginOTP';
 import Cart from './Components/Cart/Cart';
 import { fetchCart } from './features/cart/cartSlice';
 import { useEffect } from 'react';
+import OrderStepper from './Components/Order/OrderStepper';
 
 
 function App() {
@@ -35,7 +36,8 @@ function App() {
 
 
       <Route path='/cart' element={<Cart/>}></Route>
-
+      <Route path='/order' element={<OrderStepper/>}></Route>
+      
 
       <Route path="product/:productId" element={<ProductDetailsPage />} />
 

@@ -1,11 +1,12 @@
 
 .cart-container {
-    max-width: 800px;
+    width: 75%;
     margin: 100px auto;
     padding: 20px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
   }
 
 
@@ -20,6 +21,10 @@
   .cart-item-img-container{
     height: 180px;
     width: 180px;
+  }
+
+  .cart-item-container{
+    width: 74%;
   }
   
   .cart-item-img{
@@ -62,8 +67,12 @@
 
  
   .cart-summary {
-    text-align: right;
+    text-align: left;
     margin-top: 20px;
+    width: 25%;
+    height: fit-content;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 30px;
   }
   
   .cart-summary p {
@@ -73,21 +82,20 @@
     color: #333;
   }
   
-  .add-item-button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
+  .cart-summery-price-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .create-order-payment-btn{
+    width: 90%;
+    margin: 20px auto;
+    background-color: rgb(161, 12, 161);
+    font-size: 20px;
     color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
     text-align: center;
-    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
   }
-  
-  .add-item-button:hover {
-    background-color: #218838;
-  }
-  

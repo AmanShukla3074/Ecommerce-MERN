@@ -9,8 +9,9 @@ import {
 import "./Cart.css";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
-
+import { useNavigate } from "react-router-dom";
 const Cart = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { items, totalPrice, totalItems, discount, status, error } =
     useSelector((state) => state.cart);
@@ -49,9 +50,7 @@ const Cart = () => {
             )}
             <div className="cart-item-details">
               {item.product?.title && (
-                <p className="cart-item-details-title">
-                  {item.product.title}
-                </p>
+                <p className="cart-item-details-title">{item.product.title}</p>
               )}
               <p className="cart-item-details-size">Size: {item.size}</p>
               <p className="cart-item-details-price">
@@ -59,18 +58,16 @@ const Cart = () => {
               </p>
               <div className="cart-item-actions">
                 <CiCircleMinus
-                  onClick={() =>
-                    handleUpdateItem(item._id, item.quantity - 1)
-                  }
+                  onClick={() => handleUpdateItem(item._id, item.quantity - 1)}
                   className="cart-item-icons"
-                  style={{ cursor: item.quantity > 1 ? 'pointer' : 'not-allowed' }}
+                  style={{
+                    cursor: item.quantity > 1 ? "pointer" : "not-allowed",
+                  }}
                   disabled={item.quantity <= 1}
                 />
                 <p className="cart-item-icons">{item.quantity}</p>
                 <CiCirclePlus
-                  onClick={() =>
-                    handleUpdateItem(item._id, item.quantity + 1)
-                  }
+                  onClick={() => handleUpdateItem(item._id, item.quantity + 1)}
                   className="cart-item-icons"
                 />
                 <MdDelete
@@ -83,10 +80,30 @@ const Cart = () => {
         ))}
       </div>
       <div className="cart-summary">
-        <p>Total Items: {totalItems}</p>
-        <p>Total Price: ${totalPrice}</p>
-        <p>Discount: ${discount}</p>
-        <p>Total Payable: ${totalPrice - discount}</p>
+        <div className="cart-summery-price-info">
+          <p>Total Items:</p>
+          <p> {totalItems}</p>
+        </div>
+        <div className="cart-summery-price-info">
+          <p>Total Price:</p>
+          <p> ₹{totalPrice}</p>
+        </div>
+        <div className="cart-summery-price-info">
+          <p>Discount:</p>
+          <p> ₹{discount}</p>
+        </div>
+        <div className="cart-summery-price-info">
+          <p>Total Payable:</p>
+          <p> ₹{totalPrice - discount}</p>
+        </div>
+        <div
+          className="create-order-payment-btn"
+          onClick={() => {
+            {items.length>0 && navigate("/order");}
+          }}
+        >
+          Checkout
+        </div>
       </div>
     </div>
   );

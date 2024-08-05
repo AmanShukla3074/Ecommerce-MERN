@@ -1,0 +1,11 @@
+.OrderSummary-Product-paymet-container{
+    display: flex;
+}
+
+.OrderSummary-Product-container{
+    width: 75%;
+}
+
+.OrderSummary-paymet-container{
+    width: 24%;
+}

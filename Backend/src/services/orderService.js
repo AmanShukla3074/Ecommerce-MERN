@@ -1,38 +1,105 @@
-const Address = require("../models/addressModel");
 const OrderItem = require("../models/orderItems");
 const Order = require("../models/orderModel");
 const Product = require("../models/productModel");
 const cartService = require("../services/cartService");
+const Razorpay = require("razorpay");
 
-const createOrder = async (user, shippingAddress) => {
+const dotenv=require("dotenv").config();
 
+// const createOrder = async (user, shippingAddress) => {
+
+//   const isAddressExist = user.address.includes(shippingAddress._id);
+
+//   if (!isAddressExist) {
+//     // If the address is not in the user's address array, add it
+//     user.address.push(shippingAddress._id);
+//     await user.save();
+//   }
+
+//   const cart = await cartService.findUserCart(user._id);
+//   const orderItems = [];
+
+//   for (const item of cart.cartItems) {
+//      const product = await Product.findById(item.product);
+
+//      const sizeIndex = product.sizes.findIndex(size => size.name === item.size);
+//      if (sizeIndex !== -1) {
+//        product.sizes[sizeIndex].quantity -= item.quantity;
+//        if (product.sizes[sizeIndex].quantity < 0) {
+//          throw new Error(`Not enough stock for product ${product.title} in size ${item.size}`);
+//        }
+//      } else {
+//        throw new Error(`Size ${item.size} not found for product ${product.title}`);
+//      }
+ 
+//      await product.save();
+
+//     const orderItem = new OrderItem ({
+//       product: item.product,
+//       size: item.size,
+//       quantity: item.quantity,
+//       price: item.price,
+//       discountedPrice: item.discountedPrice,
+//       userId: item.userId,
+//     });
+
+//     const createOrderItem = await orderItem.save();
+//     orderItems.push(createOrderItem);
+//   }
+
+//   const createdOrder = new Order({
+//     user,
+//     orderItems,
+//     totalPrice: cart.totalPrice,
+//     totalDiscountedPrice: cart.totalDiscountedPrice,
+//     discount: cart.discount,
+//     totalItem: cart.totalItems,
+//     shippingAddress: shippingAddress._id,
+//   });
+
+//   const savedOrder = await createdOrder.save();
+//   const clearCart=await cartService.clearUserCart(user._id)
+//   return savedOrder;
+// };
+
+const createRazorpayOrder = async (totalPrice) => {
+  const instance = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+  });
+
+  const razorpayOrder = await instance.orders.create({
+    amount: totalPrice * 100, // Amount in paise
+    currency: "INR",
+  });
+
+  return razorpayOrder;
+};
+
+const createOrder = async (user, { shippingAddress, orderItems, totalPrice }, paymentId) => {
   const isAddressExist = user.address.includes(shippingAddress._id);
 
   if (!isAddressExist) {
-    // If the address is not in the user's address array, add it
     user.address.push(shippingAddress._id);
     await user.save();
   }
 
-  const cart = await cartService.findUserCart(user._id);
-  const orderItems = [];
+  for (const item of orderItems) {
+    const product = await Product.findById(item.product);
 
-  for (const item of cart.cartItems) {
-     const product = await Product.findById(item.product);
+    const sizeIndex = product.sizes.findIndex(size => size.name === item.size);
+    if (sizeIndex !== -1) {
+      product.sizes[sizeIndex].quantity -= item.quantity;
+      if (product.sizes[sizeIndex].quantity < 0) {
+        throw new Error(`Not enough stock for product ${product.title} in size ${item.size}`);
+      }
+    } else {
+      throw new Error(`Size ${item.size} not found for product ${product.title}`);
+    }
 
-     const sizeIndex = product.sizes.findIndex(size => size.name === item.size);
-     if (sizeIndex !== -1) {
-       product.sizes[sizeIndex].quantity -= item.quantity;
-       if (product.sizes[sizeIndex].quantity < 0) {
-         throw new Error(`Not enough stock for product ${product.title} in size ${item.size}`);
-       }
-     } else {
-       throw new Error(`Size ${item.size} not found for product ${product.title}`);
-     }
- 
-     await product.save();
+    await product.save();
 
-    const orderItem = new OrderItem ({
+    const orderItem = new OrderItem({
       product: item.product,
       size: item.size,
       quantity: item.quantity,
@@ -41,24 +108,26 @@ const createOrder = async (user, shippingAddress) => {
       userId: item.userId,
     });
 
-    const createOrderItem = await orderItem.save();
-    orderItems.push(createOrderItem);
+    await orderItem.save();
   }
 
   const createdOrder = new Order({
-    user,
+    user: user._id,
     orderItems,
-    totalPrice: cart.totalPrice,
-    totalDiscountedPrice: cart.totalDiscountedPrice,
-    discount: cart.discount,
-    totalItem: cart.totalItems,
+    totalPrice,
+    totalDiscountedPrice: totalPrice, // Adjust accordingly
+    discount: 0, // Adjust accordingly
+    totalItem: orderItems.length,
     shippingAddress: shippingAddress._id,
+    "paymentDetails.transactionId": paymentId,
+    "paymentDetails.paymentStatus": "SUCCESS",
   });
 
   const savedOrder = await createdOrder.save();
-  const clearCart=await cartService.clearUserCart(user._id)
+  await cartService.clearUserCart(user._id);
   return savedOrder;
 };
+
 
 const placeOrder = async (orderId) => {
   const order = await findOrderById(orderId);
@@ -149,4 +218,5 @@ module.exports = {
   userOrderHistory,
   getAllOrder,
   deleteOrder,
+  createRazorpayOrder
 };

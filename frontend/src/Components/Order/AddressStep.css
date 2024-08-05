@@ -1,0 +1,40 @@
+.address-step-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .address-list {
+    flex: 1;
+  }
+  
+  .address-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .add-address-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .add-address-form input,
+  .add-address-form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  
+  .add-address-form button {
+    background-color: #3498db;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
+  
+  .add-address-form button:hover {
+    background-color: #2980b9;
+  }

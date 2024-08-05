@@ -73,6 +73,7 @@
 .user-icon {
   font-size: 25px;
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .mega-menu {

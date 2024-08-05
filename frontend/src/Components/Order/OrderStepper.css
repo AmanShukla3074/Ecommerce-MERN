@@ -1,0 +1,127 @@
+.order-stepper-container {
+    width: 80%;
+    margin: 120px auto 0;
+    padding: 20px;
+  }
+  
+  .stepper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    justify-content: space-between;
+  }
+  
+  .step {
+    display: flex;
+    align-items: center;
+    position: relative;
+    /* flex: 1; */
+    text-align: center;
+    z-index: 2
+  }
+  
+  .step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 5px;
+  }
+  
+  .step-circle-fill {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #3498db;
+  }
+  
+  .step-label {
+    margin: 0;
+    /* margin-top: 5px; */
+    font-size: 14px;
+  }
+  
+  .loadbar {
+    height: 2px;
+    background-color: #ddd;
+    margin: 0 10px;
+    position: absolute;
+    top: 22%;
+    width: 78%;
+  }
+/*   
+  .step-line {
+    height: 2px;
+    flex: 1;
+    background-color: #ddd;
+    margin: 0 10px;
+  } */
+  
+  .step-line.filled {
+    background-color: #3498db;
+  }
+  
+  .active .step-circle {
+    background-color: #3498db;
+    color: white;
+  }
+
+  .step-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .step-content {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  /* .order-stepper-container {
+    width: 80%;
+    margin: 120px auto 0;
+  }
+  
+  .stepper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .step {
+    text-align: center;
+  }
+  
+  .step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    margin-bottom: 5px;
+  }
+  
+  .step-label {
+    font-size: 14px;
+  }
+  
+  .active .step-circle {
+    background-color: #3498db;
+    color: white;
+  }
+  
+  .step-content {
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+   */
