@@ -118,7 +118,7 @@ const authReducer = createSlice({
         })
         .addCase(loginUser.fulfilled,(state,action)=>{
             state.isLoading=false;
-            state.isAuthenticated=true;
+            state.isAuthenticated=false;
             state.user=action.payload;
         })
         .addCase(loginUser.rejected,(state,action)=>{

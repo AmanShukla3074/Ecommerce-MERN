@@ -20,9 +20,6 @@ const Cart = () => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  const handleAddItem = (itemData) => {
-    dispatch(addItemToCart(itemData));
-  };
 
   const handleUpdateItem = (id, quantity) => {
     if (quantity >= 1) {
@@ -54,7 +51,7 @@ const Cart = () => {
               )}
               <p className="cart-item-details-size">Size: {item.size}</p>
               <p className="cart-item-details-price">
-                Price: ${item.discountedPrice}
+                Price: ${item.product.discountedPrice}
               </p>
               <div className="cart-item-actions">
                 <CiCircleMinus

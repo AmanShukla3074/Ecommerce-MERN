@@ -42,11 +42,10 @@ const Login = () => {
   const submitLoginForm = (e) => {
     e.preventDefault();
 
-    // Run validation
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setValidationErrors(validationErrors);
-      return; // Stop the form submission if there are validation errors
+      return;
     }
 
     dispatch(loginUser(loginData))

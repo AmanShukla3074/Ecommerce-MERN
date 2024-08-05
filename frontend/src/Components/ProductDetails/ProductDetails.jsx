@@ -44,7 +44,6 @@ const ProductDetails = () => {
 
         console.log("Cart API response:", response.data);
 
-        // Directly check the object properties
         if (response.data && response.data.size === selectedSize) {
           setInCart(true);
         } else {
@@ -69,15 +68,17 @@ const ProductDetails = () => {
     console.log("Selected size changed to:", size);
   };
 
-  const handleAddItem = async () => {
-    try {
-      await dispatch(addItemToCart({ productId, size: selectedSize }));
-      console.log("Added item to cart:", { productId, size: selectedSize });
-      setInCart(true); // Change button to "GO TO CART" after adding
-    } catch (error) {
-      console.error("Error adding item to cart:", error);
-    }
-  };
+
+const handleAddToCart = () => {
+  if (selectedSize) {
+      dispatch(addItemToCart({ productId, size: selectedSize }))
+          .then(() => setInCart(true))
+          .catch((error) => console.error("Error adding item to cart:", error));
+  } else {
+      alert('Please select a size');
+  }
+};
+
 
   return (
     <div className="product-details-main">
@@ -137,7 +138,7 @@ const ProductDetails = () => {
             GO TO CART
           </div>
         ) : (
-          <div className="add-to-cart-btn" onClick={handleAddItem}>
+          <div className="add-to-cart-btn" onClick={handleAddToCart}>
             ADD TO CART
           </div>
         )}

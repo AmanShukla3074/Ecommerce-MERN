@@ -76,7 +76,7 @@ const verifyOtpAndRegister = async (req, res) => {
 
     await cartServices.createCart(user);
 
-    return res.status(200).send({ jwt, message: "Registered successfully" });
+    return res.status(200).send({ jwt, message: "Registered successfully" },user);
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -119,7 +119,7 @@ const verifyOtpAndLogin = async (req, res) => {
     const user = await userServices.getUserByEmail({ email });
     const token = jwtProvider.genreteToken(user._id);
 
-    return res.status(200).send({ token, message: "Login successfully" });
+    return res.status(200).send({ token, message: "Login successfully",user });
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }

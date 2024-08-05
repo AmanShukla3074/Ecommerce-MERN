@@ -21,14 +21,14 @@ const LoginOTP = () => {
   const submitOTP = (e) => {
     e.preventDefault();
     dispatch(loginUserverify(loginOTPdata))
-      // .unwrap()
-      // .then(() => {
-      //   dispatch(resetError());
-      //   navigate(-2);
-      // })
-      // .catch((error) => {
-      //   console.error("Registration error:", error);
-      // });
+      .unwrap()
+      .then(() => {
+        dispatch(resetError());
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Registration error:", error);
+      });
   };
 
   return (

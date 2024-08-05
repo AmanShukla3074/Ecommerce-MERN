@@ -53,7 +53,7 @@ const removeCartItem = async (userId, cartItemId) => {
 
     if (user._id.toString() === cartItem.userId.toString()) {
       await CartItems.findByIdAndDelete(cartItemId);
-      console.log("Cart item deleted successfully");
+      return cartItem
     } else {
       throw new Error("You can't delete this cart item");
     }
