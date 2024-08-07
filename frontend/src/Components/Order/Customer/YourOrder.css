@@ -1,0 +1,38 @@
+.orders-container {
+  max-width: 800px;
+  margin: 70px auto;
+  padding: 20px;
+}
+
+.orders-header {
+  text-align: center;
+  margin-bottom: 20px;
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.order-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  cursor: pointer;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.order-details p {
+  margin: 5px 0;
+}
+
+.order-details strong {
+  color: #555;
+}

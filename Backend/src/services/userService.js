@@ -2,24 +2,6 @@ const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwtProvider = require("../config/jwtProvider");
 
-// const createUser = async (userData) => {
-//   try {
-//     let { firstName, lastName, email, password } = userData;
-
-//     const isUserExist = await User.findOne({ email });
-
-//     if (isUserExist) {
-//       throw new Error("user already register with this email:", email);
-//     }
-
-//     password = await bcrypt.hash(password, 8);
-
-//     const user = await User.create({ firstName, lastName, email, password });
-//     return user;
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// };
 const createUser = async (userData) => {
   try {
     const { firstName, lastName, email, password } = userData;
@@ -70,7 +52,6 @@ const verifyOtp = async (email, otp) => {
       return false;
     }
 
-    // Clear OTP after verification
     await User.updateOne({ email }, { otp: null, otpExpires: null });
     return true;
   } catch (error) {
@@ -83,7 +64,8 @@ const verifyOtp = async (email, otp) => {
 const findUserById = async (userId) => {
   try {
     const user = await User.findById(userId)
-    // .populate("address");
+    .populate("ratings")
+    .populate("reviews");
 
     if (!user) {
       throw new Error("user not found with id:", userId);
@@ -94,25 +76,12 @@ const findUserById = async (userId) => {
     throw new Error(error.message);
   }
 };
-// for notmal user comented for new otp send auth
-// const getUserByEmail = async (email) => {
-//   try { 
-//     const user = await User.findOne({email});
-
-//     if (!user) {
-//       throw new Error("user not found with email:", email);
-//     }
-
-//     return user;
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// };
 
 const getUserByEmail = async (email) => {
   try {
-    console.log("Searching for user with email:", email);
-    const user = await User.findOne( email );
+    const user = await User.findOne( email )
+    .populate("ratings")
+    .populate("reviews");
 
     if (!user) {
       console.log("User not found with email:", email);
@@ -150,6 +119,21 @@ const getAllUsers = async () => {
   }
 };
 
+const updateUserPassword = async (userId, newPassword) => {
+  try {
+    const hashedPassword = await bcrypt.hash(newPassword, 8);
+    const result = await User.updateOne({ _id: userId }, { password: hashedPassword });
+
+    if (result.modifiedCount === 0) {
+      throw new Error("Failed to update password.");
+    }
+
+    return result;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 module.exports = {
   createUser,
   findUserById,
@@ -158,4 +142,5 @@ module.exports = {
   getAllUsers,
   saveOtp,
   verifyOtp,
+  updateUserPassword
 };

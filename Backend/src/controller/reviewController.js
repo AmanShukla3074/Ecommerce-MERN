@@ -13,8 +13,7 @@ const createReview = async (req, res) => {
 
 const getAllReview = async (req, res) => {
   productId = req.params.productId;
-  // productId = req.params.id;
-  console.log(productId);
+
   try {
     const reviews = await reviewService.getAllReview(productId);
     return res.status(200).send(reviews);

@@ -10,7 +10,6 @@ const createCart = async(user)=>{
             cartItems: [] // Initialize with an empty array
         });
         const createdCart = await cart.save();
-        console.log("Created Cart:", createdCart);
         return createdCart;
     } catch (error) {
         throw new Error(error.message);

@@ -4,7 +4,6 @@ const Product = require("../models/productModel");
 const createProduct = async (reqData) => {
   let topLevel = await Category.findOne({ name: reqData.topLevelCategory });
 
-  console.log("1",topLevel)
   if (!topLevel) {
     topLevel = new Category({
       name: reqData.topLevelCategory,
@@ -19,8 +18,6 @@ const createProduct = async (reqData) => {
     parentCategory: topLevel._id,
   });
 
-  
-console.log("2",secondLevel)
 
   if (!secondLevel) {
     secondLevel = new Category({
@@ -36,7 +33,6 @@ console.log("2",secondLevel)
     parentCategory: secondLevel._id,
   });
 
-  console.log("3",thirdLevel)
   if (!thirdLevel) {
     thirdLevel = new Category({
       name: reqData.thirdLevelCategory,
@@ -86,13 +82,22 @@ const updateProduct = async (prodId, reqData) => {
 };
 
 const findProductById = async (prodId) => {
-  const product = Product.findById(prodId).populate("category").exec();
-
-  if (!product) {
-    throw new Error("Product not found with id" + prodId);
-  }
-
-  return product;
+ try {
+   const product = Product.findById(prodId)
+   .populate("category")
+   .populate("ratings")
+   .populate("reviews")
+   .exec();
+ 
+   if (!product) { 
+     throw new Error("Product not found with id" + prodId);
+   }
+ 
+   return product;
+ } catch (error) {
+  
+  throw new Error(error.message);
+ }
 };
 
 
