@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCart, settotalItemsToZero } from "../../features/cart/cartSlice";
 import "./OrderSummary.css";
 import { useNavigate } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items, totalPrice, totalItems, discount, status, error } = useSelector((state) => state.cart);
+  const { items, totalPrice, totalItems, discount, status, error } =
+    useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchCart());
@@ -28,15 +31,15 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           totalPrice: totalPrice - discount,
           selectedAddressId,
-          orderItems: items.map(item => item._id),
-          totalItem: items.length,
-          totalDiscountedPrice: totalPrice - discount,
-          discount: discount,
+          // orderItems: items.map(item => item._id),
+          // totalItem: items.length,
+          // totalDiscountedPrice: totalPrice - discount,
+          // discount: discount,
         }),
       });
 
@@ -49,26 +52,29 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
       const { razorpayOrderId, amount, currency } = data;
 
       const options = {
-        key: "rzp_test_a8zCPw0O3IlCsu",
+        key: process.env.RAZORPAY_KEY_ID,
         amount: amount,
         currency: currency,
-        name: "Your Store Name",
+        name: "E-SHOP",
         description: "Test Transaction",
         order_id: razorpayOrderId,
         handler: async (response) => {
           try {
-            const verifyResponse = await fetch("http://localhost:5001/api/orders/verify-payment", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`,
-              },
-              body: JSON.stringify({
-                razorpay_payment_id: response.razorpay_payment_id,
-                razorpay_order_id: response.razorpay_order_id,
-                razorpay_signature: response.razorpay_signature,
-              }),
-            });
+            const verifyResponse = await fetch(
+              "http://localhost:5001/api/orders/verify-payment",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              }
+            );
 
             const verifyData = await verifyResponse.json();
             if (!verifyResponse.ok) {
@@ -77,18 +83,18 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
             }
 
             console.log("Payment successful, order created:", verifyData);
-            onNext(); // Proceed to next step
+            onNext();
           } catch (error) {
             console.error("Error in payment verification:", error);
           }
         },
         prefill: {
-          name: "User's Name", // Replace with actual user data
-          email: "user@example.com", // Replace with actual user email
-          contact: "9999999999", // Replace with actual user contact
+          name: user.user.firstName + user.user.lastName,
+          email: user.user.email,
+          contact: "1234567890",
         },
         notes: {
-          address: "Razorpay Corporate Office",
+          address: "",
         },
         theme: {
           color: "#e932f0",
@@ -97,7 +103,7 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
 
       const rzp = new window.Razorpay(options);
       rzp.open();
-      dispatch(settotalItemsToZero())
+      dispatch(settotalItemsToZero());
     } catch (error) {
       console.error("Error during payment:", error);
     }
@@ -105,8 +111,7 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
 
   return (
     <div>
-      <h2>Order Summary</h2>
-      <p>Selected Address ID: {selectedAddressId}</p>
+      <div className="address-header">Order Summary</div>
       <div className="OrderSummary-Product-paymet-container">
         <div className="cart-item-container OrderSummary-Product-container">
           {items?.map((item) => (
@@ -127,10 +132,16 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
                   </p>
                 )}
                 <p className="cart-item-details-size">Size: {item.size}</p>
-                <p className="cart-item-details-price">
-                  Price: ${item.discountedPrice}
-                </p>
-                <p className="cart-item-icons">Quantity: {item.quantity}</p>
+                <span className="cart-product-discountedPrice">
+                  {"\u20B9"}
+                  {item.product.discountedPrice}
+                </span>
+                <span className="cart-product-price">
+                  {"\u20B9"}
+                  {item.product.price}
+                </span>
+                <span className="cart-product-discountPercent">{`(${item.product.discountPercent}% off)`}</span>
+                <p className="order-summery-qty">Quantity: {item.quantity}</p>
               </div>
             </div>
           ))}
@@ -152,15 +163,13 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
             <p>Total Payable:</p>
             <p> ₹{totalPrice - discount}</p>
           </div>
-          <div
-            className="create-order-payment-btn"
-            onClick={handlePayment}
-          >
+          <div className="create-order-payment-btn" onClick={handlePayment}>
             Payment
           </div>
         </div>
       </div>
-      <button onClick={onBack}>Back</button>
+      {/* <button onClick={onBack}>Back</button> */}
+      <IoMdArrowRoundBack onClick={onBack} className="order-back-step"/>
     </div>
   );
 };

@@ -9,3 +9,13 @@
 .OrderSummary-paymet-container{
     width: 24%;
 }
+
+.order-summery-qty{
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.order-back-step{
+    font-size: 30px;
+    cursor: pointer;
+}

@@ -75,58 +75,119 @@ const createRazorpayOrder = async (totalPrice) => {
 
   return razorpayOrder;
 };
-
-const createOrder = async (user, { shippingAddress, orderItems, totalPrice }, paymentId) => {
-  const isAddressExist = user.address.includes(shippingAddress._id);
-
-  if (!isAddressExist) {
-    user.address.push(shippingAddress._id);
-    await user.save();
+const createOrder = async (user,  shippingAddress , razorpayOrderId) => {
+  const cart = await cartService.findUserCart(user._id);
+  if (!cart || cart.cartItems.length === 0) {
+    return res.status(400).send({ error: "Your cart is empty" });
   }
+  const orderItems = [];
 
-  for (const item of orderItems) {
-    const product = await Product.findById(item.product);
-
-    const sizeIndex = product.sizes.findIndex(size => size.name === item.size);
-    if (sizeIndex !== -1) {
-      product.sizes[sizeIndex].quantity -= item.quantity;
-      if (product.sizes[sizeIndex].quantity < 0) {
-        throw new Error(`Not enough stock for product ${product.title} in size ${item.size}`);
+  for (const item of cart.cartItems) {
+      const productExists = await Product.exists({ _id: item.product });
+      if (!productExists) {
+          throw new Error(`Product with ID ${item.product} does not exist.`);
       }
-    } else {
-      throw new Error(`Size ${item.size} not found for product ${product.title}`);
-    }
 
-    await product.save();
+      const orderItem = new OrderItem({
+          product: item.product, 
+          size: item.size,
+          quantity: item.quantity,
+          price: item.price,
+          discountedPrice: item.discountedPrice,
+          userId: user._id,
+      });
 
-    const orderItem = new OrderItem({
-      product: item.product,
-      size: item.size,
-      quantity: item.quantity,
-      price: item.price,
-      discountedPrice: item.discountedPrice,
-      userId: item.userId,
-    });
-
-    await orderItem.save();
+      const savedOrderItem = await orderItem.save();
+      orderItems.push(savedOrderItem._id); 
   }
 
-  const createdOrder = new Order({
-    user: user._id,
-    orderItems,
-    totalPrice,
-    totalDiscountedPrice: totalPrice, // Adjust accordingly
-    discount: 0, // Adjust accordingly
-    totalItem: orderItems.length,
-    shippingAddress: shippingAddress._id,
-    "paymentDetails.transactionId": paymentId,
-    "paymentDetails.paymentStatus": "SUCCESS",
+  const newOrder = new Order({
+      user: user._id,
+      orderItems, 
+      shippingAddress: shippingAddress,
+      totalPrice: cart.totalPrice,
+      totalDiscountedPrice: cart.totalDiscountedPrice,
+      discount: cart.discount,
+      totalItem: cart.totalItems,
+      paymentDetails: {
+          paymentMethod: 'RAZORPAY',
+          transactionId: razorpayOrderId,
+          paymentStatus: "PENDING",
+      },
   });
 
-  const savedOrder = await createdOrder.save();
+  await newOrder.save();
   await cartService.clearUserCart(user._id);
-  return savedOrder;
+  return newOrder;
 };
+
+
+
+// const createRazorpayOrder = async (totalPrice) => {
+//   const instance = new Razorpay({
+//     key_id: process.env.RAZORPAY_KEY_ID,
+//     key_secret: process.env.RAZORPAY_KEY_SECRET,
+//   });
+
+//   const razorpayOrder = await instance.orders.create({
+//     amount: totalPrice * 100, // Amount in paise
+//     currency: "INR",
+//   });
+
+//   return razorpayOrder;
+// };
+
+// const createOrder = async (user, { shippingAddress, orderItems, totalPrice }, paymentId) => {
+//   const isAddressExist = user.address.includes(shippingAddress._id);
+
+//   if (!isAddressExist) {
+//     user.address.push(shippingAddress._id);
+//     await user.save();
+//   }
+
+//   for (const item of orderItems) {
+//     const product = await Product.findById(item.product);
+
+//     const sizeIndex = product.sizes.findIndex(size => size.name === item.size);
+//     if (sizeIndex !== -1) {
+//       product.sizes[sizeIndex].quantity -= item.quantity;
+//       if (product.sizes[sizeIndex].quantity < 0) {
+//         throw new Error(`Not enough stock for product ${product.title} in size ${item.size}`);
+//       }
+//     } else {
+//       throw new Error(`Size ${item.size} not found for product ${product.title}`);
+//     }
+
+//     await product.save();
+
+//     const orderItem = new OrderItem({
+//       product: item.product,
+//       size: item.size,
+//       quantity: item.quantity,
+//       price: item.price,
+//       discountedPrice: item.discountedPrice,
+//       userId: item.userId,
+//     });
+
+//     await orderItem.save();
+//   }
+
+//   const createdOrder = new Order({
+//     user: user._id,
+//     orderItems,
+//     totalPrice,
+//     totalDiscountedPrice: totalPrice, // Adjust accordingly
+//     discount: 0, // Adjust accordingly
+//     totalItem: orderItems.length,
+//     shippingAddress: shippingAddress._id,
+//     "paymentDetails.transactionId": paymentId,
+//     "paymentDetails.paymentStatus": "SUCCESS",
+//   });
+
+//   const savedOrder = await createdOrder.save();
+//   await cartService.clearUserCart(user._id);
+//   return savedOrder;
+// };
 
 
 const placeOrder = async (orderId) => {
@@ -140,7 +201,6 @@ const placeOrder = async (orderId) => {
 
 const confirmedOrder = async (orderId) => {
   const order = await findOrderById(orderId);
-  console.log(order);
   order.orderStatus = "CONFIRMED";
 
   return await order.save();
@@ -170,21 +230,60 @@ const cancelOrder = async (orderId) => {
   return await order.save();
 };
 
-const findOrderById = async (orderId) => {
-  const order = await Order.findById(orderId)
-    .populate("user")
-    .populate({ path: "orderItems", populate: { path: "product" } })
-    .populate("shippingAddress");
+// const findOrderById = async (orderId) => {
+//   const order = await Order.findById(orderId)
+//     .populate("user")
+//     .populate({ path: "orderItems", populate: { path: "product" } })
+//     .populate("shippingAddress");
 
-  return order;
+//   return order;
+// };
+
+// const findOrderById = async (orderId) => {
+//   const order = await Order.findById(orderId)
+//     .populate("user", "-password -__v") // Exclude sensitive user info
+//     .populate({
+//       path: "orderItems",
+//       populate: {
+//         path: "product",
+//         model: "products", // Specify the correct model name
+//       }
+//     })
+//     .populate("shippingAddress");
+
+//   return order;
+// };
+
+const findOrderById = async (orderId) => {
+  try {
+    const order = await Order.findById(orderId)
+    .populate("user", "-password -__v")
+    .populate({
+      path: "orderItems",
+      populate: {
+        path: "product",
+        model: "products",
+      }
+    })
+    .populate("shippingAddress")
+
+    if (!order) {
+      throw new Error("Order not found");
+    }
+    return order;
+  } catch (error) {
+    console.error("Error finding order:", error.message); // Log error details
+    throw new Error("Failed to fetch order details");
+  }
 };
+
 
 const userOrderHistory = async (userId) => {
   try {
     const orders = await Order.find({
       user: userId,
       // orderStatus: "PLACED",
-    }).populate({ path: "orderItems", populate: { path: "product" } });
+    }).populate({ path: "orderItems", populate: { path: "product" } }).populate("shippingAddress")
 
     return orders;
   } catch (error) {

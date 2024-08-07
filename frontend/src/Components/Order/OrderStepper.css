@@ -24,7 +24,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #ddd;
+    background-color: #d6ccc2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,8 +41,7 @@
   
   .step-label {
     margin: 0;
-    /* margin-top: 5px; */
-    font-size: 14px;
+    font-size: 17px;
   }
   
   .loadbar {
@@ -66,8 +65,10 @@
   }
   
   .active .step-circle {
-    background-color: #3498db;
-    color: white;
+    background-color: #8ac926;
+    /* background-color: #a7c957; */
+    /* background-color: #fed9b7; */
+    color: black;
   }
 
   .step-info{

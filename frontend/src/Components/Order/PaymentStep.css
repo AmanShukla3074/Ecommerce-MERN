@@ -1,0 +1,51 @@
+.payment-success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh;
+    background-color: #f9f9f9; */
+  }
+  
+  .payment-success-content {
+    text-align: center;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .payment-success-title {
+    font-size: 28px;
+    color: black;
+    margin-bottom: 20px;
+  }
+  
+  .payment-success-message {
+    font-size: 21px;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  
+  .payment-success-actions {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .payment-success-button {
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    margin: 0 10px;
+  }
+  
+  .payment-success-button:hover {
+    background-color: #45a049;
+  }
+  

@@ -20,7 +20,6 @@ const Cart = () => {
     dispatch(fetchCart());
   }, [dispatch]);
 
-
   const handleUpdateItem = (id, quantity) => {
     if (quantity >= 1) {
       dispatch(updateCartItem({ id, quantity }));
@@ -50,9 +49,15 @@ const Cart = () => {
                 <p className="cart-item-details-title">{item.product.title}</p>
               )}
               <p className="cart-item-details-size">Size: {item.size}</p>
-              <p className="cart-item-details-price">
-                Price: ${item.product.discountedPrice}
-              </p>
+              <span className="cart-product-discountedPrice">
+                {"\u20B9"}
+                {item.product.discountedPrice}
+              </span>
+              <span className="cart-product-price">
+                {"\u20B9"}
+                {item.product.price}
+              </span>
+              <span className="cart-product-discountPercent">{`(${item.product.discountPercent}% off)`}</span>
               <div className="cart-item-actions">
                 <CiCircleMinus
                   onClick={() => handleUpdateItem(item._id, item.quantity - 1)}
@@ -96,7 +101,9 @@ const Cart = () => {
         <div
           className="create-order-payment-btn"
           onClick={() => {
-            {items.length>0 && navigate("/order");}
+            {
+              items.length > 0 && navigate("/order");
+            }
           }}
         >
           Checkout

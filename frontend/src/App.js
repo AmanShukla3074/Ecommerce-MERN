@@ -14,6 +14,8 @@ import Cart from './Components/Cart/Cart';
 import { fetchCart } from './features/cart/cartSlice';
 import { useEffect } from 'react';
 import OrderStepper from './Components/Order/OrderStepper';
+import YourOrder from './Components/Order/Customer/YourOrder';
+import OrderDetails from './Components/Order/Customer/OrderDetails';
 
 
 function App() {
@@ -37,6 +39,9 @@ function App() {
 
       <Route path='/cart' element={<Cart/>}></Route>
       <Route path='/order' element={<OrderStepper/>}></Route>
+
+      <Route path='/your-order' element={<YourOrder/>}></Route>
+      <Route path='/order/:orderId' element={<OrderDetails/>}></Route>
       
 
       <Route path="product/:productId" element={<ProductDetailsPage />} />

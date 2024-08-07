@@ -49,10 +49,25 @@
   margin: 10px 0;
 }
   
-.cart-item-details-price{
-  font-size: 20px;
-  margin: 10px 0;
+
+.cart-product-discountedPrice{
+  font-size: 25px;
+  margin-right: 8px;
 }
+
+.cart-product-price{
+  text-decoration-line: line-through;
+  font-size: 18px;
+  margin-right: 5px;
+  color: #444;
+}
+
+.cart-product-discountPercent{
+  font-size: 19px;
+  color: rgb(249, 25, 25);
+  margin-right: 5px;
+}
+
   
   .cart-item-actions {
     display: flex;
