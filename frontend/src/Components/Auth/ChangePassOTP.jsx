@@ -1,33 +1,42 @@
 import React, { useState } from "react";
+import {
+  changePasswordOTPverify,
+  registerUserverify,
+  resetError,
+} from "../../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUserverify, resetError } from "../../features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
 
-const LoginOTP = () => {
+const ChangePassOTP = () => {
   const { isLoading, userCredentialsData, error } = useSelector(
     (state) => state.auth
   );
-  const [loginOTPdata, setLoginOTPdata] = useState({
-    email: `${userCredentialsData.email}`,
-    otp: "",
-  });
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleChange = (e) => {
-    setLoginOTPdata({ ...loginOTPdata, [e.target.name]: e.target.value });
-  };
-  
+
+  const [changePassData, setChangePassData] = useState({
+    email: userCredentialsData.email,
+    newPassword: "",
+    otp: "",
+  });
+
   const submitOTP = (e) => {
     e.preventDefault();
-    dispatch(loginUserverify(loginOTPdata))
+    console.log(changePassData)
+    dispatch(changePasswordOTPverify(changePassData))
       .unwrap()
       .then(() => {
         dispatch(resetError());
-        navigate("/");
+        navigate("/login");
       })
       .catch((error) => {
         console.error("Registration error:", error);
       });
+  };
+
+  const handleChange = (e) => {
+    setChangePassData({ ...changePassData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -40,11 +49,18 @@ const LoginOTP = () => {
           onChange={handleChange}
           placeholder="OTP"
         />
+        <span className="form-label">New Password:</span>{" "}
+        <input
+          type="text"
+          name="newPassword"
+          onChange={handleChange}
+          placeholder="New Password"
+        />
         <button type="submit" className="form-btn" disable={isLoading}>
           Verify OTP
         </button>
         {error && (
-          <p className="form-error">
+          <p>
             {typeof error === "string"
               ? error
               : error.message || JSON.stringify(error)}
@@ -52,10 +68,12 @@ const LoginOTP = () => {
         )}
       </form>
       <p className="regi-label">
-        <Link to="/change-password" className="regi-link">Change Password</Link>
+        <Link to="/change-password" className="regi-link">
+          Change Password
+        </Link>
       </p>
     </div>
   );
 };
 
-export default LoginOTP;
+export default ChangePassOTP;

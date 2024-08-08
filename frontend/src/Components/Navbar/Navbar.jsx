@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Navbar.css";
 import { IoCartOutline } from "react-icons/io5";
 import { FaRegCircleUser } from "react-icons/fa6";
@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
-
+import {logout} from '../../features/auth/authSlice'
 const Navbar = () => {
   const [navbarTransparent, setNavbarTransparent] = useState(true);
   const [menMenuOpen, setMenMenuOpen] = useState(false);
@@ -15,9 +15,13 @@ const Navbar = () => {
   const [searchBox, setSearchBox] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const location = useLocation();
-  const navigation = useNavigate()
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
+  const location = useLocation();
+  const navigate = useNavigate()
+
+  const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
   const totalItems = useSelector((state) => state.cart.totalItems);
   const {userCredentialsData,isAuthenticated}=useSelector((state)=>state.auth)
@@ -34,6 +38,21 @@ const Navbar = () => {
     };
   }, []);
 
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
   const isHome = location.pathname === "/";
   const handleSearchBoxToggle = () => {
     setSearchBox(!searchBox);
@@ -45,7 +64,7 @@ const Navbar = () => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    navigation(`/search/${searchQuery}`)
+    navigate(`/search/${searchQuery}`)
     console.log("Search query:", searchQuery);
   };
   
@@ -180,9 +199,32 @@ const Navbar = () => {
           
         </div>
         <div className="cart-icon-container">
-        <IoCartOutline className="cart-icon" onClick={()=>{navigation("/cart")}}/> <p className="cart-item-count">{totalItems}</p>
+        <IoCartOutline className="cart-icon" onClick={()=>{navigate("/cart")}}/> <p className="cart-item-count">{totalItems}</p>
         </div>
-        { isAuthenticated ?  <FaRegCircleUser className="user-icon" />: <button className="navbar-right-btn" onClick={()=>{navigation('/login')}}>Login</button>}
+        {/* { isAuthenticated ?  <FaRegCircleUser className="user-icon" />: <button className="navbar-right-btn" onClick={()=>{navigate('/login')}}>Login</button>} */}
+        {isAuthenticated ? (
+          <div className="user-dropdown" ref={dropdownRef}>
+            <div  className="user-icon">
+              {dropdownOpen ? <IoMdClose className="icon" onClick={()=>{setDropdownOpen(!dropdownOpen)}}/> : <FaRegCircleUser onClick={()=>{setDropdownOpen(!dropdownOpen)}}/>}
+            </div>
+            {/* <div onClick={()=>{setDropdownOpen(!dropdownOpen)}} className="user-icon">
+              {dropdownOpen ? <IoMdClose className="icon" /> : <FaRegCircleUser />}
+            </div> */}
+            {dropdownOpen && (
+              <div className="dropdown-menu">
+                <p>{user.user.firstName + user.user.lastName}</p>
+                <Link to="/your-order" onClick={() => setDropdownOpen(false)}>Your Orders</Link>
+                <button onClick={()=>{dispatch(logout())}}>Logout</button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <button className="navbar-right-btn" onClick={() => navigate('/login')}>
+            Login
+          </button>
+        )}
+
+
       </div>
     </div>
   );

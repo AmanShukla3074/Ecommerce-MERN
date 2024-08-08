@@ -37,7 +37,25 @@ export const loginUserverify=createAsyncThunk('loginUserverify',async(userData,t
         return thunkAPI.rejectWithValue(error.response.data)
     }
 })
- 
+
+export const changePassword=createAsyncThunk('changePassword',async(userData,thunkAPI)=>{
+    try {
+        const response= await axios.post("http://localhost:5001/auth/password-change",userData);
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data)
+    }
+})
+
+export const changePasswordOTPverify=createAsyncThunk('changePasswordOTPverify',async(userData,thunkAPI)=>{
+    try {
+        const response= await axios.post("http://localhost:5001/auth/verify-password-change-otp",userData);
+        return response.data
+    } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data)
+    }
+})
+
 const loadUserFromLocalStorage = () => {
     const userJson = localStorage.getItem("user");
     
@@ -138,6 +156,34 @@ const authReducer = createSlice({
             localStorage.setItem("user", JSON.stringify(action.payload));
         })
         .addCase(loginUserverify.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.error=action.payload;
+        })
+
+        
+        .addCase(changePassword.pending,(state)=>{
+            state.isLoading=true;
+        })
+        .addCase(changePassword.fulfilled,(state,action)=>{
+            state.isLoading=false;
+            state.user=null;
+            state.isAuthenticated=false;
+        })
+        .addCase(changePassword.rejected,(state,action)=>{
+            state.isLoading=false;
+            state.error=action.payload;
+        })
+        
+        .addCase(changePasswordOTPverify.pending,(state)=>{
+            state.isLoading=true;
+        })
+       
+        .addCase(changePasswordOTPverify.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.user=null;
+            state.isAuthenticated=false;
+        })
+        .addCase(changePasswordOTPverify.rejected,(state,action)=>{
             state.isLoading=false;
             state.error=action.payload;
         })

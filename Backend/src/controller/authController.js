@@ -3,19 +3,8 @@ const userServices = require("../services/userService");
 const bcrypt = require("bcrypt");
 const cartServices = require("../services/cartService");
 const otpService = require("../config/otpService");
+const User = require("../models/userModel");
 
-// const register = async (req, res) => {
-//   try {
-//     const { email } = req.body;
-//     const otp = otpService.generateOtp();
-//     await otpService.sendOtp(email, otp);
-//     const savedotp=await userServices.saveOtp(email, otp);
-//     console.log("savedotp",savedotp);
-//     return res.status(200).send({ message: "OTP sent to email" });
-//   } catch (error) {
-//     return res.status(500).send({ error: error.message });
-//   }
-// };
 
 const register = async (req, res) => {
   try {
@@ -32,13 +21,11 @@ const register = async (req, res) => {
     }
 
     user = await userServices.createUser({ firstName, lastName, email, password });
-    console.log("New user created:", user);
 
     const otp = otpService.generateOtp();
     await otpService.sendOtp(email, otp);
 
     const savedOtp = await userServices.saveOtp(email, otp);
-    console.log("savedOtp", savedOtp);
 
     if (savedOtp.matchedCount === 0) {
       return res.status(400).send({ message: "OTP not saved, user not found." });
@@ -72,11 +59,11 @@ const verifyOtpAndRegister = async (req, res) => {
     user.verified = true;
     await user.save();
 
-    const jwt = jwtProvider.genreteToken(user._id);
+    const token = jwtProvider.genreteToken(user._id);
 
     await cartServices.createCart(user);
 
-    return res.status(200).send({ jwt, message: "Registered successfully" },user);
+    return res.status(201).send({ token, message: "Registered successfully" ,user});
   } catch (error) {
     return res.status(500).send({ error: error.message });
   }
@@ -125,4 +112,64 @@ const verifyOtpAndLogin = async (req, res) => {
   }
 };
 
-module.exports = { register, verifyOtpAndRegister, login, verifyOtpAndLogin };
+
+const requestPasswordChangeOtp = async (req, res) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).send({ message: "Email is required." });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).send({ message: "User not found with this email." });
+    }
+
+    const otp = otpService.generateOtp();
+    await otpService.sendOtp(email, otp);
+    await User.updateOne({ email }, { otp, otpExpires: Date.now() + 10 * 60 * 1000 }); // Set OTP expiration
+
+    return res.status(200).send({ message: "OTP sent to email." });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+const verifyPasswordChangeOtp = async (req, res) => {
+  const { email, otp, newPassword } = req.body;
+
+  if (!email || !otp || !newPassword) {
+    return res.status(400).send({ message: "All fields (email, otp, newPassword) are required." });
+  }
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).send({ message: "User not found with this email." });
+    }
+
+    // Verify OTP
+    if (user.otp !== otp || user.otpExpires < Date.now()) {
+      return res.status(400).send({ message: "Invalid or expired OTP." });
+    }
+
+    // Hash new password
+    const hashedPassword = await bcrypt.hash(newPassword, 8);
+    await User.updateOne({ email }, { password: hashedPassword, otp: null, otpExpires: null });
+
+    return res.status(200).send({ message: "Password updated successfully." });
+  } catch (error) {
+    return res.status(500).send({ error: error.message });
+  }
+};
+
+
+module.exports = { 
+  register, 
+  verifyOtpAndRegister, 
+  login, 
+  verifyOtpAndLogin,
+  requestPasswordChangeOtp,
+  verifyPasswordChangeOtp
+};

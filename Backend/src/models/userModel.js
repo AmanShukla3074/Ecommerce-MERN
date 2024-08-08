@@ -36,14 +36,14 @@ const userSchema=new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"payment_information"
     }],
-    // ratings:[{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     ref:"ratings"
-    // }],
-    // reviews:[{
-    //     type:mongoose.Schema.Types.ObjectId,
-    //     ref:"reviews"
-    // }],
+    ratings:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"ratings"
+    }],
+    reviews:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"reviews"
+    }],
     otp: {
         type: String,
         required: false

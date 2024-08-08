@@ -16,6 +16,8 @@ import { useEffect } from 'react';
 import OrderStepper from './Components/Order/OrderStepper';
 import YourOrder from './Components/Order/Customer/YourOrder';
 import OrderDetails from './Components/Order/Customer/OrderDetails';
+import ChangePass from './Components/Auth/ChangePass';
+import ChangePassOTP from './Components/Auth/ChangePassOTP';
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
       <Route path='/register-otpVerify' element={<RegisterOTP/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
       <Route path='/login-otpVerify' element={<LoginOTP/>}></Route>
+      <Route path='/change-password' element={<ChangePass/>}></Route>
+      <Route path='/change-password-otpVerify' element={<ChangePassOTP/>}></Route>
 
 
       <Route path='/cart' element={<Cart/>}></Route>
