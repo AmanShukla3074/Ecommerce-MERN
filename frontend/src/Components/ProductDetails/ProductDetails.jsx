@@ -22,7 +22,7 @@ const ProductDetails = () => {
     const fetchProductData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/api/product/id/${productId}`
+          `${process.env.REACT_APP_BACKEND_API}/api/product/id/${productId}`
         );
         setData(response.data);
         setMainImg(response.data.imgUrls[0]);
@@ -39,7 +39,7 @@ const ProductDetails = () => {
     const checkIfInCart = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/api/cart_items/${productId}`,
+          `${process.env.REACT_APP_BACKEND_API}/api/cart_items/${productId}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         if (response.data && response.data.size === selectedSize) {

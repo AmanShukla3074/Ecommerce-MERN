@@ -23,7 +23,7 @@ const AddressStep = ({ onNext }) => {
   useEffect(() => {
     const fetchAddresses = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/address/", {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/address/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +39,7 @@ const AddressStep = ({ onNext }) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5001/api/address/delete/${id}`, {
+      await axios.delete(`${process.env.REACT_APP_BACKEND_API}/api/address/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -57,7 +57,7 @@ const AddressStep = ({ onNext }) => {
   const handleAddAddress = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5001/api/address/create",
+        `${process.env.REACT_APP_BACKEND_API}/api/address/create`,
         newAddress,
         {
           headers: {
@@ -88,7 +88,7 @@ const AddressStep = ({ onNext }) => {
   const handleUpdateAddress = async () => {
     try {
       await axios.put(
-        `http://localhost:5001/api/address/update/${editingAddressId}`,
+        `${process.env.REACT_APP_BACKEND_API}/api/address/update/${editingAddressId}`,
         newAddress,
         {
           headers: {

@@ -3,7 +3,7 @@ import axios from 'axios'
 //actions 
 export const registerUser=createAsyncThunk('registerUser',async(userData,thunkAPI)=>{
     try {
-        const response= await axios.post("http://localhost:5001/auth/register",userData);
+        const response= await axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/register`,userData);
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data);
@@ -12,7 +12,7 @@ export const registerUser=createAsyncThunk('registerUser',async(userData,thunkAP
 
 export const registerUserverify=createAsyncThunk('registerUserverify',async(userData,thunkAPI)=>{
     try {
-        const response= await axios.post("http://localhost:5001/auth/verify-otp-register",userData);
+        const response= await axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/verify-otp-register`,userData);
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -22,7 +22,7 @@ export const registerUserverify=createAsyncThunk('registerUserverify',async(user
 
 export const loginUser=createAsyncThunk('loginUser',async(userData,thunkAPI)=>{
     try {
-        const response= await axios.post("http://localhost:5001/auth/login",userData);
+        const response= await axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/login`,userData);
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -31,7 +31,7 @@ export const loginUser=createAsyncThunk('loginUser',async(userData,thunkAPI)=>{
 
 export const loginUserverify=createAsyncThunk('loginUserverify',async(userData,thunkAPI)=>{
     try {
-        const response= await axios.post("http://localhost:5001/auth/verify-otp-login",userData);
+        const response= await axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/verify-otp-login`,userData);
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -40,7 +40,7 @@ export const loginUserverify=createAsyncThunk('loginUserverify',async(userData,t
 
 export const changePassword=createAsyncThunk('changePassword',async(userData,thunkAPI)=>{
     try {
-        const response= await axios.post("http://localhost:5001/auth/password-change",userData);
+        const response= await axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/password-change`,userData);
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -49,7 +49,7 @@ export const changePassword=createAsyncThunk('changePassword',async(userData,thu
 
 export const changePasswordOTPverify=createAsyncThunk('changePasswordOTPverify',async(userData,thunkAPI)=>{
     try {
-        const response= await axios.post("http://localhost:5001/auth/verify-password-change-otp",userData);
+        const response= await axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/verify-password-change-otp`,userData);
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)

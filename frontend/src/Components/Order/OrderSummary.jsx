@@ -27,7 +27,7 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
     }
 
     try {
-      const response = await fetch("http://localhost:5001/api/orders/create", {
+      const response = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/orders/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
         handler: async (response) => {
           try {
             const verifyResponse = await fetch(
-              "http://localhost:5001/api/orders/verify-payment",
+              `${process.env.REACT_APP_BACKEND_API}/api/orders/verify-payment`,
               {
                 method: "POST",
                 headers: {

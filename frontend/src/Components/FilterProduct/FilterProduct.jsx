@@ -44,10 +44,9 @@ const FilterProduct = (props) => {
 
   useEffect(() => {
     if (!isInitialized) return;
-
     const fetchProduct = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/product", {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/product`, {
           params: {
             searchQry:qry,
             color: colors.length > 0 ? colors : undefined,

@@ -10,9 +10,9 @@ const ProductContainer = (props) => {
       try {
         let response;
         if (props.category) {
-          response = await axios.get(`http://localhost:5001/api/product?category=${props.category}`);
+          response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/product?category=${props.category}`);
         } else {
-          response = await axios.get(`http://localhost:5001/api/product`);
+          response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/product`);
         }
         setData(response.data);
       } catch (error) {

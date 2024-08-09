@@ -17,7 +17,7 @@ const OrderDetails = () => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/orders/${orderId}`, {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/orders/${orderId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -45,7 +45,7 @@ const OrderDetails = () => {
   const handleReviewSubmit = async () => {
     if (selectedProduct) {
       try {
-        await axios.post('http://localhost:5001/api/reviews/create', {
+        await axios.post(`${process.env.REACT_APP_BACKEND_API}/api/reviews/create`, {
           productId: selectedProduct._id,
           review: reviewText,
         }, {
@@ -54,7 +54,7 @@ const OrderDetails = () => {
           },
         });
 
-        await axios.post('http://localhost:5001/api/ratings/create', {
+        await axios.post(`${process.env.REACT_APP_BACKEND_API}/api/ratings/create`, {
           productId: selectedProduct._id,
           ratings: rating,
         }, {

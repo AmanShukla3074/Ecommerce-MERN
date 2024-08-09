@@ -12,7 +12,7 @@ const YourOrder = () => {
     const fetchOrders = async () => {
       try {
         
-        const response =await axios.get('http://localhost:5001/api/orders/user', {
+        const response =await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/orders/user`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },

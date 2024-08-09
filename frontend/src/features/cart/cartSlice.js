@@ -6,7 +6,7 @@ const getToken = () => localStorage.getItem('user') ? JSON.parse(localStorage.ge
 export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWithValue }) => {
   try {
     const token = getToken();
-    const response = await axios.get('http://localhost:5001/api/cart', {
+    const response = await axios.get(`${process.env.REACT_APP_BACKEND_API}/api/cart`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -21,7 +21,7 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWi
 export const addItemToCart = createAsyncThunk('cart/addItemToCart', async (itemData, { rejectWithValue }) => {
   try {
     const token = getToken();
-    const response = await axios.post('http://localhost:5001/api/cart/add', itemData, {
+    const response = await axios.post(`${process.env.REACT_APP_BACKEND_API}/api/cart/add`, itemData, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -36,7 +36,7 @@ export const addItemToCart = createAsyncThunk('cart/addItemToCart', async (itemD
 export const updateCartItem = createAsyncThunk('cart/updateCartItem', async ({ id, quantity }, { rejectWithValue }) => {
   try {
     const token = getToken();
-    const response = await axios.put(`http://localhost:5001/api/cart_items/${id}`, { quantity }, {
+    const response = await axios.put(`${process.env.REACT_APP_BACKEND_API}/api/cart_items/${id}`, { quantity }, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -51,7 +51,7 @@ export const updateCartItem = createAsyncThunk('cart/updateCartItem', async ({ i
 export const removeCartItem = createAsyncThunk('cart/removeCartItem', async (id, { rejectWithValue }) => {
   try {
     const token = getToken();
-    await axios.delete(`http://localhost:5001/api/cart_items/${id}`, {
+    await axios.delete(`${process.env.REACT_APP_BACKEND_API}/api/cart_items/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
