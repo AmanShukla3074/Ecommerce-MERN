@@ -1,6 +1,6 @@
 .product-details-main{
     width: 80%;
-    margin: 100px auto;
+    margin: 120px auto;
     display: flex;
     align-items: start;
     justify-content: space-between;
@@ -104,7 +104,7 @@
 
 .product-detail-size.selected {
     background-color: #999;
-    color: white;
+    color: black;
   }
 
   .add-to-cart-btn{
@@ -126,9 +126,21 @@
     font-size: 18px;
   }
 
+  .rating-header{
+    font-size: 35px;
+    text-align: center;
+  }
+
+.rating-container{
+  width: 70%;
+  margin: 40px auto;
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+}
 
   .rating-distribution {
-    margin-top: 20px;
+    width: 43%;
   }
   
   .rating-distribution h3 {
@@ -172,7 +184,7 @@
   }
   
   .reviews {
-    margin-top: 30px;
+    width: 55%;
   }
   
   .reviews h3 {

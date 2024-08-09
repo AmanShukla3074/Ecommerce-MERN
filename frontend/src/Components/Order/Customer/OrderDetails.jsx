@@ -61,8 +61,7 @@ const OrderDetails = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        alert('Review and rating submitted successfully!');
+        
         closeModal();
       } catch (error) {
         console.error('Error submitting review or rating:', error);

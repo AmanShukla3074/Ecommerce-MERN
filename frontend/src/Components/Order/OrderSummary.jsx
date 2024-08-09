@@ -8,7 +8,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items, totalPrice, totalItems, discount, status, error } =
+  const { items, totalPrice, totalItems, discount, totalDiscountedPrice } =
     useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.auth);
 
@@ -34,7 +34,7 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          totalPrice: totalPrice - discount,
+          totalPrice: totalDiscountedPrice,
           selectedAddressId,
           // orderItems: items.map(item => item._id),
           // totalItem: items.length,
@@ -161,7 +161,7 @@ const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
           </div>
           <div className="cart-summery-price-info">
             <p>Total Payable:</p>
-            <p> ₹{totalPrice - discount}</p>
+            <p> ₹{totalDiscountedPrice}</p>
           </div>
           <div className="create-order-payment-btn" onClick={handlePayment}>
             Payment

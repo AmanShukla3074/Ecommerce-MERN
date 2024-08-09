@@ -65,10 +65,11 @@ export const removeCartItem = createAsyncThunk('cart/removeCartItem', async (id,
 
 const calculateCartSummary = (items) => {
   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
-  const totalPrice = items.reduce((acc, item) => acc + item.quantity * item.discountedPrice, 0);
+  const totalPrice = items.reduce((acc, item) => acc + item.quantity * item.price, 0);
+  const totalDiscountedPrice = items.reduce((acc, item) => acc + item.quantity * item.discountedPrice, 0);
   const discount = items.reduce((acc, item) => acc + item.quantity * (item.price - item.discountedPrice), 0);
-
-  return { totalItems, totalPrice, discount };
+  
+  return { totalItems, totalPrice, discount,totalDiscountedPrice };
 };
 
 const cartSlice = createSlice({
@@ -76,6 +77,7 @@ const cartSlice = createSlice({
   initialState: {
     items: [],
     totalPrice: 0,
+    totalDiscountedPrice: 0,
     totalItems: 0,
     discount: 0,
     status: null,
@@ -97,6 +99,7 @@ const cartSlice = createSlice({
         state.totalItems = summary.totalItems;
         state.totalPrice = summary.totalPrice;
         state.discount = summary.discount;
+        state.totalDiscountedPrice = summary.totalDiscountedPrice;
         state.status = 'succeeded';
       })
       .addCase(fetchCart.rejected, (state, action) => {
@@ -119,6 +122,7 @@ const cartSlice = createSlice({
         state.totalItems = summary.totalItems;
         state.totalPrice = summary.totalPrice;
         state.discount = summary.discount;
+        state.totalDiscountedPrice = summary.totalDiscountedPrice;
         state.status = 'succeeded';
       })
       .addCase(addItemToCart.rejected, (state, action) => {
@@ -139,6 +143,7 @@ const cartSlice = createSlice({
         state.totalItems = summary.totalItems;
         state.totalPrice = summary.totalPrice;
         state.discount = summary.discount;
+        state.totalDiscountedPrice = summary.totalDiscountedPrice;
         state.status = 'succeeded';
       })
       .addCase(updateCartItem.rejected, (state, action) => {
@@ -156,6 +161,7 @@ const cartSlice = createSlice({
         state.totalItems = summary.totalItems;
         state.totalPrice = summary.totalPrice;
         state.discount = summary.discount;
+        state.totalDiscountedPrice = summary.totalDiscountedPrice;
         state.status = 'succeeded';
       })
       .addCase(removeCartItem.rejected, (state, action) => {
@@ -171,8 +177,6 @@ export const selectCartItems = (state) => state.cart.items;
 export const {settotalItemsToZero}=cartSlice.actions;
 
 export default cartSlice.reducer;
-
-
 // import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 // import axios from 'axios';
 
@@ -181,15 +185,14 @@ export default cartSlice.reducer;
 // export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWithValue }) => {
 //   try {
 //     const token = getToken();
-
 //     const response = await axios.get('http://localhost:5001/api/cart', {
 //       headers: {
 //         Authorization: `Bearer ${token}`
 //       }
 //     });
-    
 //     return response.data;
 //   } catch (error) {
+//     console.error('Error fetching cart:', error.response ? error.response.data : error.message);
 //     return rejectWithValue(error.response ? error.response.data : error.message);
 //   }
 // });
@@ -202,11 +205,9 @@ export default cartSlice.reducer;
 //         Authorization: `Bearer ${token}`
 //       }
 //     });
-//     console.log(response.data);
-    
 //     return response.data;
 //   } catch (error) {
-//     console.log(error.response ? error.response.data : error.message);
+//     console.error('Error adding item to cart:', error.response ? error.response.data : error.message);
 //     return rejectWithValue(error.response ? error.response.data : error.message);
 //   }
 // });
@@ -221,6 +222,7 @@ export default cartSlice.reducer;
 //     });
 //     return response.data;
 //   } catch (error) {
+//     console.error('Error updating cart item:', error.response ? error.response.data : error.message);
 //     return rejectWithValue(error.response ? error.response.data : error.message);
 //   }
 // });
@@ -235,9 +237,18 @@ export default cartSlice.reducer;
 //     });
 //     return id;
 //   } catch (error) {
+//     console.error('Error removing cart item:', error.response ? error.response.data : error.message);
 //     return rejectWithValue(error.response ? error.response.data : error.message);
 //   }
 // });
+
+// const calculateCartSummary = (items) => {
+//   const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
+//   const totalPrice = items.reduce((acc, item) => acc + item.quantity * item.discountedPrice, 0);
+//   const discount = items.reduce((acc, item) => acc + item.quantity * (item.price - item.discountedPrice), 0);
+
+//   return { totalItems, totalPrice, discount };
+// };
 
 // const cartSlice = createSlice({
 //   name: 'cart',
@@ -249,6 +260,11 @@ export default cartSlice.reducer;
 //     status: null,
 //     error: null
 //   },
+//   reducers:
+//   {settotalItemsToZero:(state)=>{
+//     state.totalItems=0
+//   }}
+//   ,
 //   extraReducers: (builder) => {
 //     builder
 //       .addCase(fetchCart.pending, (state) => {
@@ -256,15 +272,14 @@ export default cartSlice.reducer;
 //       })
 //       .addCase(fetchCart.fulfilled, (state, action) => {
 //         state.items = action.payload.cartItems || [];
-//         state.totalPrice = action.payload.totalPrice || 0;
-//         state.totalItems = action.payload.totalItems || 0;
-//         state.discount = action.payload.discount || 0;
+//         const summary = calculateCartSummary(state.items);
+//         state.totalItems = summary.totalItems;
+//         state.totalPrice = summary.totalPrice;
+//         state.discount = summary.discount;
 //         state.status = 'succeeded';
-//       })    
-      
-    
-      
+//       })
 //       .addCase(fetchCart.rejected, (state, action) => {
+//         console.error('Fetching cart: rejected', action.payload);
 //         state.status = 'failed';
 //         state.error = action.payload;
 //       })
@@ -272,21 +287,21 @@ export default cartSlice.reducer;
 //         state.status = 'loading';
 //       })
 //       .addCase(addItemToCart.fulfilled, (state, action) => {
-//         console.log('Added casitem:qwdf');
-//         console.log('Added item:', action.payload);
-//         console.log('Added item:qwdf');
-//         const itemIndex = state.items.findIndex(item => item._id === action.payload._id);
+//         const newItem = action.payload;
+//         const itemIndex = state.items.findIndex(item => item._id === newItem._id);
 //         if (itemIndex !== -1) {
-//             state.items[itemIndex].quantity += action.payload.quantity;
+//           state.items[itemIndex].quantity += newItem.quantity;
 //         } else {
-//             state.items.push(action.payload);
+//           state.items.push(newItem);
 //         }
-//         state.totalItems = state.items.reduce((acc, item) => acc + item.quantity, 0);
-//         state.totalPrice = state.items.reduce((acc, item) => acc + item.quantity * (item.discountedPrice || 0), 0);
+//         const summary = calculateCartSummary(state.items);
+//         state.totalItems = summary.totalItems;
+//         state.totalPrice = summary.totalPrice;
+//         state.discount = summary.discount;
 //         state.status = 'succeeded';
-//     })
-    
+//       })
 //       .addCase(addItemToCart.rejected, (state, action) => {
+//         console.error('Adding item to cart: rejected', action.payload);
 //         state.status = 'failed';
 //         state.error = action.payload;
 //       })
@@ -295,40 +310,43 @@ export default cartSlice.reducer;
 //       })
 //       .addCase(updateCartItem.fulfilled, (state, action) => {
 //         const updatedItem = action.payload;
-//         const itemIndex = state.items.findIndex((item) => item._id === updatedItem._id);
+//         const itemIndex = state.items.findIndex(item => item._id === updatedItem._id);
 //         if (itemIndex !== -1) {
 //           state.items[itemIndex].quantity = updatedItem.quantity;
-//           state.items[itemIndex].discountedPrice = updatedItem.discountedPrice;
 //         }
-//         state.totalItems = state.items.reduce((acc, item) => acc + item.quantity, 0);
-//         state.totalPrice = state.items.reduce((acc, item) => acc + item.quantity * item.discountedPrice, 0);
+//         const summary = calculateCartSummary(state.items);
+//         state.totalItems = summary.totalItems;
+//         state.totalPrice = summary.totalPrice;
+//         state.discount = summary.discount;
 //         state.status = 'succeeded';
-//       })    
-//      .addCase(updateCartItem.rejected, (state, action) => {
+//       })
+//       .addCase(updateCartItem.rejected, (state, action) => {
+//         console.error('Updating cart item: rejected', action.payload);
 //         state.status = 'failed';
 //         state.error = action.payload;
 //       })
 //       .addCase(removeCartItem.pending, (state) => {
 //         state.status = 'loading';
 //       })
-
 //       .addCase(removeCartItem.fulfilled, (state, action) => {
-//         state.items = state.items.filter((item) => item._id !== action.payload);
-//         // Recalculate the total items and total price after an item is removed
-//         state.totalItems = state.items.reduce((acc, item) => acc + item.quantity, 0);
-//         state.totalPrice = state.items.reduce((acc, item) => acc + item.quantity * item.discountedPrice, 0);
+//         const removedId = action.payload;
+//         state.items = state.items.filter(item => item._id !== removedId);
+//         const summary = calculateCartSummary(state.items);
+//         state.totalItems = summary.totalItems;
+//         state.totalPrice = summary.totalPrice;
+//         state.discount = summary.discount;
 //         state.status = 'succeeded';
-//     })
-    
+//       })
 //       .addCase(removeCartItem.rejected, (state, action) => {
+//         console.error('Removing cart item: rejected', action.payload);
 //         state.status = 'failed';
 //         state.error = action.payload;
-//       })
+//       });
 //   },
 // });
 
-
 // export const selectCartItems = (state) => state.cart.items;
 
+// export const {settotalItemsToZero}=cartSlice.actions;
 
 // export default cartSlice.reducer;

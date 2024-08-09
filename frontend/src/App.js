@@ -18,6 +18,8 @@ import YourOrder from './Components/Order/Customer/YourOrder';
 import OrderDetails from './Components/Order/Customer/OrderDetails';
 import ChangePass from './Components/Auth/ChangePass';
 import ChangePassOTP from './Components/Auth/ChangePassOTP';
+import Footer from './Components/Footer/Footer';
+import PrivateRoutes from './Router/PrivateRoutes';
 
 
 function App() {
@@ -36,19 +38,28 @@ function App() {
       <Route path='/register' element={<Register/>}></Route>
       <Route path='/register-otpVerify' element={<RegisterOTP/>}></Route>
       <Route path='/login' element={<Login/>}></Route>
+      <Route path='/*' element={<Login/>}></Route>
       <Route path='/login-otpVerify' element={<LoginOTP/>}></Route>
       <Route path='/change-password' element={<ChangePass/>}></Route>
       <Route path='/change-password-otpVerify' element={<ChangePassOTP/>}></Route>
 
-
+{/* 
       <Route path='/cart' element={<Cart/>}></Route>
       <Route path='/order' element={<OrderStepper/>}></Route>
-
       <Route path='/your-order' element={<YourOrder/>}></Route>
-      <Route path='/order/:orderId' element={<OrderDetails/>}></Route>
+      <Route path='/order/:orderId' element={<OrderDetails/>}></Route> */}
       
 
       <Route path="product/:productId" element={<ProductDetailsPage />} />
+
+      {/* Private Routes (Only for user who logged in) */}
+
+      <Route element={<PrivateRoutes/>}>
+        <Route path='/cart' element={<Cart/>}></Route>
+        <Route path='/order' element={<OrderStepper/>}></Route>
+        <Route path='/your-order' element={<YourOrder/>}></Route>
+        <Route path='/order/:orderId' element={<OrderDetails/>}></Route>
+      </Route>
 
       {/* men categories */}
       <Route path="category/men_tshirt" element={<CategoryProductPage category="men_tshirt" heading="Men's T-Shirts"/>} />
@@ -98,6 +109,7 @@ function App() {
       <Route path="search/:qry" element={<CategoryProductPage />} />
 
     </Routes>
+    <Footer/>
     </Router>
     {/* </Provider> */}
     </>

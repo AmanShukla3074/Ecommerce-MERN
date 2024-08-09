@@ -83,11 +83,22 @@ const updateProduct = async (prodId, reqData) => {
 
 const findProductById = async (prodId) => {
  try {
-   const product = Product.findById(prodId)
-   .populate("category")
-   .populate("ratings")
-   .populate("reviews")
-   .exec();
+  const product = Product.findById(prodId)
+  .populate("category")
+  .populate({
+    path: "ratings",
+    populate: {
+      path: "user", 
+    },
+  })
+  .populate({
+    path: "reviews",
+    populate: {
+      path: "user", 
+    },
+  })
+  .exec();
+
  
    if (!product) { 
      throw new Error("Product not found with id" + prodId);

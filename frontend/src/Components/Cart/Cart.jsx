@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { items, totalPrice, totalItems, discount, status, error } =
+  const { items, totalPrice, totalItems, discount, totalDiscountedPrice } =
     useSelector((state) => state.cart);
 
   useEffect(() => {
@@ -96,7 +96,7 @@ const Cart = () => {
         </div>
         <div className="cart-summery-price-info">
           <p>Total Payable:</p>
-          <p> ₹{totalPrice - discount}</p>
+          <p> ₹{totalDiscountedPrice}</p>
         </div>
         <div
           className="create-order-payment-btn"
