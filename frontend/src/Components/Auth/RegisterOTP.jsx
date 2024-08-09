@@ -6,6 +6,7 @@ import {
   userCredentials,
 } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const RegisterOTP = () => {
   const [formData, setFormData] = useState({});
@@ -27,6 +28,7 @@ const RegisterOTP = () => {
       .then(() => {
         dispatch(resetError());
         navigate("/");
+        toast.success("Registerd In Successfully...")
       })
       .catch((error) => {
         console.error("Registration error:", error);

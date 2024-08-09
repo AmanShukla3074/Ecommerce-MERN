@@ -6,6 +6,7 @@ import {
 } from "../../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ChangePassOTP = () => {
   const { isLoading, userCredentialsData, error } = useSelector(
@@ -29,9 +30,10 @@ const ChangePassOTP = () => {
       .then(() => {
         dispatch(resetError());
         navigate("/login");
+        toast.success('Password Changed,Login Again With New Password...')
       })
       .catch((error) => {
-        console.error("Registration error:", error);
+        console.error("Change Password error:", error);
       });
   };
 
@@ -51,7 +53,7 @@ const ChangePassOTP = () => {
         />
         <span className="form-label">New Password:</span>{" "}
         <input
-          type="text"
+          type="password"
           name="newPassword"
           onChange={handleChange}
           placeholder="New Password"

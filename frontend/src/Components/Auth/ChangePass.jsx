@@ -4,6 +4,7 @@ import './Login.css'
 import {changePassword, resetError, userCredentials} from '../../features/auth/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const ChangePass = () => {
   
@@ -45,6 +46,7 @@ const ChangePass = () => {
         setEmail("")
         dispatch(resetError());
         navigate("/change-password-otpVerify");
+        toast('OTP Sent To Your Email...')
       })
       .catch((error) => {
         console.error("Change Password error:", error);

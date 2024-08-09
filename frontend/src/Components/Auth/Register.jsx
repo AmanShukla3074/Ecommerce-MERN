@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser, userCredentials, resetError } from '../../features/auth/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '' });
@@ -57,6 +58,7 @@ const Register = () => {
         setFormData({ firstName: '', lastName: '', email: '', password: '' });
         dispatch(resetError());
         navigate('/register-otpVerify');
+        toast("OTP Sent To Your Email...")
       })
       .catch((error) => {
         console.error('Registration error:', error);

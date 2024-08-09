@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import './OrderDetails.css';
 import Modal from 'react-modal';
+import { toast } from 'react-toastify';
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -63,7 +64,9 @@ const OrderDetails = () => {
         });
         
         closeModal();
+        toast.success('Rating and Review Submitted Successfully')
       } catch (error) {
+        toast.error('Failed to Submit Rating and Review')
         console.error('Error submitting review or rating:', error);
       }
     }
@@ -98,18 +101,8 @@ const OrderDetails = () => {
         <p className='shipping-lines'><span className='shipping-headline'>Total Discounted Price: </span>₹{order.totalDiscountedPrice}</p>
       </div>
 
-      {/* <div className="shipping-address">
-        <h3>Shipping Address</h3>
-        <p><strong>Name:</strong> {order.shippingAddress.firstName} {order.shippingAddress.lastName}</p>
-        <p><strong>Address:</strong> {order.shippingAddress.streetAddress}</p>
-        <p><strong>City:</strong> {order.shippingAddress.city}</p>
-        <p><strong>Zipcode:</strong> {order.shippingAddress.zipcode}</p>
-        <p><strong>Mobile:</strong> {order.shippingAddress.mobile}</p>
-      </div> */}
-
       <div className="payment-details">
         <h3 className='shipping-address-header'>Payment Details</h3>
-        {/* <p className='shipping-lines'><span className='shipping-headline'>Payment Method: </span>{order.paymentDetails.paymentMethod}</p> */}
         <p className='shipping-lines'><span className='shipping-headline'>Transaction ID: </span>{order.paymentDetails.transactionId}</p>
         <p className='shipping-lines'><span className='shipping-headline'>Payment Status: </span>{order.paymentDetails.paymentStatus}</p>
         <p className='shipping-lines'><span className='shipping-headline'>Payment ID: </span>{order.paymentDetails.paymentId}</p>
@@ -124,8 +117,8 @@ const OrderDetails = () => {
               <p><strong>Product:</strong> {item.product.title}</p>
               <p><strong>Size:</strong> {item.size}</p>
               <p><strong>Quantity:</strong> {item.quantity}</p>
-              {/* <p><strong>Price:</strong> ₹{item.price}</p> */}
               <p><strong>Discounted Price:</strong> ₹{item.discountedPrice}</p>
+              <p><strong>Total Price:</strong> ₹{item.quantity * item.discountedPrice}</p>
               <button className='rate-review-btn' onClick={() => openModal(item.product)}>Rate & Review</button>
             </div>
           </div>

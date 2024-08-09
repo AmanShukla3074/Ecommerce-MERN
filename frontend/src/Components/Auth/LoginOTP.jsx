@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUserverify, resetError } from "../../features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const LoginOTP = () => {
   const { isLoading, userCredentialsData, error } = useSelector(
@@ -24,6 +25,7 @@ const LoginOTP = () => {
       .then(() => {
         dispatch(resetError());
         navigate("/");
+        toast.success("Logged In Successfully...")
       })
       .catch((error) => {
         console.error("Registration error:", error);

@@ -8,6 +8,7 @@ import {
 
 } from "../../features/auth/authSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -55,6 +56,7 @@ const Login = () => {
         setLoginData({ email: "", password: "" });
         dispatch(resetError());
         navigate("/login-otpVerify");
+        toast("OTP Sent To Your Email...")
       })
       .catch((error) => {
         console.error("Login error:", error);
