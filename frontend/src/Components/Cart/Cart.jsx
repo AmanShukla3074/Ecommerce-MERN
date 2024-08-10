@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCart,
-  addItemToCart,
   updateCartItem,
   removeCartItem,
 } from "../../features/cart/cartSlice";
@@ -102,7 +101,9 @@ const Cart = () => {
           className="create-order-payment-btn"
           onClick={() => {
             {
-              items.length > 0 && navigate("/order");
+              if (items.length > 0) {
+                navigate("/order");
+              }
             }
           }}
         >

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   registerUserverify,
   resetError,
-  userCredentials,
 } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";

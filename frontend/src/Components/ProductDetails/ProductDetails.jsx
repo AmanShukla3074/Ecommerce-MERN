@@ -98,7 +98,6 @@ const ProductDetails = () => {
               <img
                 key={index}
                 src={img}
-                alt="Product Image"
                 className="product-img-gallery-images"
                 onClick={() => changeMainImg(img)}
               />

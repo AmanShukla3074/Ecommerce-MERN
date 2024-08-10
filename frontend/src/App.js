@@ -4,8 +4,7 @@ import {BrowserRouter as Router,Route,Routes} from 'react-router-dom'
 import HomePage from './Pages/HomePage';
 import ProductDetailsPage from './Pages/ProductDetailsPage';
 import CategoryProductPage from './Pages/CategoryProductPage';
-import {Provider, useDispatch} from 'react-redux'
-import { store } from './redux/store';
+import { useDispatch} from 'react-redux'
 import Register from './Components/Auth/Register';
 import RegisterOTP from './Components/Auth/RegisterOTP';
 import Login from './Components/Auth/Login';

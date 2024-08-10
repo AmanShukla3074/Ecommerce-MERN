@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   changePasswordOTPverify,
-  registerUserverify,
   resetError,
 } from "../../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";

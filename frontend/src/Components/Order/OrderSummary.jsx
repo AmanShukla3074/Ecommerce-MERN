@@ -2,11 +2,9 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCart, settotalItemsToZero } from "../../features/cart/cartSlice";
 import "./OrderSummary.css";
-import { useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 
 const OrderSummary = ({ onNext, onBack, selectedAddressId }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { items, totalPrice, totalItems, discount, totalDiscountedPrice } =
     useSelector((state) => state.cart);

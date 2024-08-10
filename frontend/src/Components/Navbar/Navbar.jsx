@@ -24,7 +24,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
   const totalItems = useSelector((state) => state.cart.totalItems);
-  const {userCredentialsData,isAuthenticated}=useSelector((state)=>state.auth)
+  const {isAuthenticated}=useSelector((state)=>state.auth)
   
   useEffect(() => {
     const handleScroll = () => {
