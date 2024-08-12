@@ -1,5 +1,5 @@
 .login-form{
-    width: 25%;
+    width: 40%;
     margin: 180px auto;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     padding: 45px;
@@ -54,3 +54,21 @@
     text-align: center;
     color: red;
 }
+
+
+@media (max-width: 768px) {
+
+    .login-form{
+        width: 75%;
+        margin: 220px auto;
+        padding: 30px;
+    }
+
+  }
+  
+  @media (max-width: 576px) {
+    .login-form{
+        width: 85%;
+        padding: 15px;
+    }
+  }

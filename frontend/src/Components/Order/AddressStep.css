@@ -1,4 +1,4 @@
-.address-header{
+.address-header {
   margin-bottom: 30px;
   text-align: center;
   font-size: 30px;
@@ -6,73 +6,71 @@
 }
 
 .address-step-container {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .address-list {
-    flex: 1;
-  }
-  
-  .address-item {
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
+  display: flex;
+  gap: 20px;
+}
 
-  .address-line{
-    font-size: 18px;
-  }
+.address-list {
+  flex: 1;
+}
 
-  .address-line-header{
-    font-weight: 500;
-  }
+.address-item {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
 
-  .address-buttons{
-    display: flex;
-    align-items: center;
-  }
+.address-line {
+  font-size: 18px;
+}
 
-  .address-button{
-    font-size: 24px;
-    margin-left: 10px;
-    cursor: pointer;
-  }
-  
-  .address-select-button{
-    font-size: 18px;
-    padding: 6px 15px;
-    background-color: #E3A5C7;
-    width: fit-content;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+.address-line-header {
+  font-weight: 500;
+}
 
-  .add-address-form {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+.address-buttons {
+  display: flex;
+  align-items: center;
+}
 
-  .address-form-line{
-    font-size: 17px;
-    margin: 0;
-  }
+.address-button {
+  font-size: 24px;
+  margin-left: 10px;
+  cursor: pointer;
+}
 
-  
-  .add-address-form input,
-  .add-address-form button {
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    border: 1px solid #ddd;
-  }
+.address-select-button {
+  font-size: 18px;
+  padding: 6px 15px;
+  background-color: #e3a5c7;
+  width: fit-content;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
+.add-address-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-.address-submit-form{
-  background-color: #E3A5C7;
+.address-form-line {
+  font-size: 17px;
+  margin: 0;
+}
+
+.add-address-form input,
+.add-address-form button {
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 15px;
+  border: 1px solid #ddd;
+}
+
+.address-submit-form {
+  background-color: #e3a5c7;
   color: black;
   cursor: pointer;
   border: none;
@@ -80,4 +78,62 @@
   padding: 10px 0;
   border-radius: 5px;
   font-size: 17px;
+}
+
+@media (max-width: 768px) {
+  .address-header {
+    margin-bottom: 20px;
+    font-size: 25px;
+  }
+
+  .address-line {
+    font-size: 15px;
+    margin: 5px 0;
+  }
+  .address-select-button {
+    font-size: 15px;
+    padding: 4px 13px;
+    border-radius: 4px;
+  }
+  .address-button {
+    font-size: 20px;
+  }
+
+  .add-address-form {
+    gap: 6px;
+  }
+
+  .address-form-line {
+    font-size: 16px;
+    margin: 0;
+  }
+  .add-address-form input {
+    padding: 7px;
+    font-size: 14px;
+  }
+
+  .address-submit-form {
+    padding: 8px 0;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .address-step-container {
+    flex-direction: column;
+}
+
+.address-header {
+  margin-bottom: 15px;
+  font-size: 23px;
+}
+
+.address-step-container{
+  flex-direction: column;
+  align-items: center;
+}
+.add-address-form {
+  width: 100%;
+}
+
 }

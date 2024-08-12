@@ -1,15 +1,192 @@
-
 .cart-container {
-    width: 75%;
-    height: 80vh;
-    margin: 100px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
+  width: 75%;
+  height: 80vh;
+  margin: 100px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.cart-item-img-container {
+  height: 180px;
+  width: 180px;
+}
+
+.cart-item-container {
+  width: 74%;
+}
+
+.cart-item-img {
+  width: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.cart-item-details {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.cart-item-details-title {
+  font-size: 25px;
+  font-weight: 500;
+  margin: 10px 0;
+}
+
+.cart-item-details-size {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.cart-product-discountedPrice {
+  font-size: 25px;
+  margin-right: 8px;
+}
+
+.cart-product-price {
+  text-decoration-line: line-through;
+  font-size: 18px;
+  margin-right: 5px;
+  color: #444;
+}
+
+.cart-product-discountPercent {
+  font-size: 19px;
+  color: rgb(249, 25, 25);
+  margin-right: 5px;
+}
+
+.cart-item-actions {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  height: 35px;
+}
+.cart-item-icons {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.cart-summary {
+  text-align: left;
+  margin-top: 20px;
+  width: 25%;
+  height: fit-content;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  padding: 30px;
+}
+
+.cart-summary p {
+  margin: 5px 0;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.cart-summery-price-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.create-order-payment-btn {
+  width: 90%;
+  margin: 20px auto;
+  background-color: rgb(161, 12, 161);
+  font-size: 20px;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .cart-container {
+    width: 90%;
+  }
+  .cart-item-container {
+    width: 66%;
+}
+  .cart-item-img-container {
+    height: 155px;
+    width: 155px;
   }
 
+  .cart-item-details {
+    flex-grow: 1;
+    margin-left: 10px;
+  }
+
+  .cart-item-details-title {
+    font-size: 20px;
+    margin: 3px 0;
+  }
+
+  .cart-item-details-size {
+    font-size: 17px;
+    margin: 5px 0;
+  }
+
+  .cart-product-discountedPrice {
+    font-size: 20px;
+    margin-right: 6px;
+  }
+
+  .cart-product-price {
+    font-size: 16px;
+  }
+
+  .cart-product-discountPercent {
+    font-size: 17px;
+  }
+
+  .cart-item-actions {
+    font-size: 20px;
+    height: 27px;
+  }
+  .cart-item-icons {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+
+  .cart-summary {
+    text-align: left;
+        margin-top: 0px;
+        width: 33%;
+        height: fit-content;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        padding: 15px
+  }
+
+  .cart-summary p {
+    margin: 3px 0;
+    font-size: 16px;
+  }
+
+  .create-order-payment-btn {
+    margin: 15px auto;
+    font-size: 18px;
+    padding: 8px;
+}
+}
+
+@media (max-width: 576px) {
+  .cart-container {
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+  }
 
   .cart-item {
     display: flex;
@@ -19,99 +196,78 @@
     border-bottom: 1px solid #e0e0e0;
   }
 
-  .cart-item-img-container{
-    height: 180px;
-    width: 180px;
+  .cart-item-img-container {
+    height: 130px;
+    width: 130px;
   }
 
-  .cart-item-container{
-    width: 74%;
+  .cart-item-container {
+    width: 100%;
   }
-  
-  .cart-item-img{
+
+  .cart-item-img {
     width: 100%;
     object-fit: cover;
     border-radius: 4px;
   }
-  
+
   .cart-item-details {
-    flex-grow: 1;
-    margin-left: 10px;
+    margin-left: 0px;
   }
-  
-.cart-item-details-title{
-  font-size: 25px;
-  font-weight: 500;
-  margin: 10px 0;
-}
-  
-.cart-item-details-size{
-  font-size: 20px;
-  margin: 10px 0;
-}
-  
 
-.cart-product-discountedPrice{
-  font-size: 25px;
-  margin-right: 8px;
-}
+  .cart-item-details-title {
+    font-size: 20px;
+    margin: 3px 0;
+  }
 
-.cart-product-price{
-  text-decoration-line: line-through;
-  font-size: 18px;
-  margin-right: 5px;
-  color: #444;
-}
+  .cart-item-details-size {
+    font-size: 17px;
+    margin: 4px 0;
+  }
 
-.cart-product-discountPercent{
-  font-size: 19px;
-  color: rgb(249, 25, 25);
-  margin-right: 5px;
-}
+  .cart-product-discountedPrice {
+    font-size: 18px;
+    margin-right: 7px;
+  }
 
-  
+  .cart-product-price {
+    font-size: 16px;
+  }
+
+  .cart-product-discountPercent {
+    font-size: 17px;
+  }
+
   .cart-item-actions {
-    display: flex;
-    align-items: center;
-    font-size: 22px;
-    height: 35px;
+    font-size: 20px;
+    height: 25px;
   }
-  .cart-item-icons{
-    margin-right: 10px;
-    cursor: pointer;
+  .cart-item-icons {
+    margin-right: 5px;
   }
 
- 
   .cart-summary {
     text-align: left;
-    margin-top: 20px;
-    width: 25%;
-    height: fit-content;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 30px;
+    margin-top: 17px;
+    width: 65%;
+    padding: 10px;
   }
-  
+
   .cart-summary p {
-    margin: 5px 0;
-    font-size: 18px;
-    font-weight: bold;
-    color: #333;
+    margin: 3px 0;
+    font-size: 15px;
   }
-  
-  .cart-summery-price-info{
+
+  .cart-summery-price-info {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  .create-order-payment-btn{
-    width: 90%;
-    margin: 20px auto;
-    background-color: rgb(161, 12, 161);
-    font-size: 20px;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
+  .create-order-payment-btn {
+    margin: 8px auto;
+    font-size: 17px;
+    padding: 5px;
+
   }
+}

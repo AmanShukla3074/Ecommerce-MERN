@@ -19,6 +19,7 @@ import ChangePass from './Components/Auth/ChangePass';
 import ChangePassOTP from './Components/Auth/ChangePassOTP';
 import Footer from './Components/Footer/Footer';
 import PrivateRoutes from './Router/PrivateRoutes';
+import { toast } from 'react-toastify';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchCart());
+    toast.info("It's may take some time for render data")
   }, [dispatch]);
   return (
   <>

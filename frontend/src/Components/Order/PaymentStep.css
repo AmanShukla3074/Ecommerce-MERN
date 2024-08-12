@@ -49,3 +49,23 @@
     background-color: #45a049;
   }
   
+
+
+
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 576px) {
+  .payment-success-content {
+    padding: 20px 15px;
+  }
+
+  .payment-success-button {
+    font-size: 16px;
+}
+.payment-success-message {
+  font-size: 19px;
+}
+}

@@ -69,3 +69,30 @@
     align-items: center;
     justify-content: space-around;
 }
+
+
+@media (max-width: 768px) {
+    .footer-container{
+        flex-direction: column;
+        align-items: center;
+    }
+    .footer-categoeris {
+        width: 50%;
+    }
+    .footer-categoeris-links-header {
+        font-size: 20px;
+    }
+    .footer-links {
+        font-size: 17px;
+    }
+    .footer-location-socials {
+        margin-top: 50px;
+    }
+
+  }
+  
+  @media (max-width: 576px) {
+    .footer-categoeris {
+        width: 80%;
+    }
+  }

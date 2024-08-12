@@ -18,6 +18,8 @@ const items = [
 ];
 
 const HomeCarousel = () => (
+    <div className="alice-crousel-container">
+
     <AliceCarousel
         items={items}
         disableButtonsControls
@@ -25,7 +27,8 @@ const HomeCarousel = () => (
         autoPlay
         autoPlayInterval={1500}
         infinite
-    />
+        />
+        </div>
 );
 
 export default HomeCarousel
