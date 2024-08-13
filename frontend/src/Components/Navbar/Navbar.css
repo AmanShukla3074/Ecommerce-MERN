@@ -319,6 +319,9 @@
     width: 15px;
     height: 15px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .side-menu-dropdown-opt {
@@ -330,6 +333,11 @@
   .side-menu-logout {
     display: block;
     margin: 10px 0;
+  }
+
+  .side-menu-logout a{
+    text-decoration: none;
+    color: black;
   }
 
   .navLinks {
@@ -358,7 +366,7 @@
     position: static;
     transform: none;
     background-color: white;
-    padding: 20px 0;
+    padding: 0;
     box-shadow: none;
     z-index: 10;
   }
@@ -380,5 +388,6 @@
 
   .submenu-column h3 {
     font-size: 19px;
+    margin: 15px 0 3px;
   }
 }

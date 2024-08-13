@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from 'axios'
+import setLogoutTimer from "../../Utils/JwtExpireVerify";
 //actions 
 export const registerUser=createAsyncThunk('registerUser',async(userData,thunkAPI)=>{
     try {
@@ -89,6 +90,7 @@ const authReducer = createSlice({
         logout(state){
             state.user=null;
             state.isAuthenticated=false;
+            state.jwt = null;
             localStorage.removeItem('user')
         },
         userCredentials:(state,action)=>{
@@ -124,6 +126,7 @@ const authReducer = createSlice({
             state.user = action.payload;
             state.jwt = action.payload.token;
             localStorage.setItem("user", JSON.stringify(action.payload));
+            setLogoutTimer(action.asyncThunk.dispatch, action.payload.token);
         })
         .addCase(registerUserverify.rejected,(state,action)=>{
             state.isLoading=false;
@@ -154,6 +157,7 @@ const authReducer = createSlice({
             state.user = action.payload;
             state.jwt = action.payload.token;
             localStorage.setItem("user", JSON.stringify(action.payload));
+            setLogoutTimer(action.asyncThunk.dispatch, action.payload.token);
         })
         .addCase(loginUserverify.rejected,(state,action)=>{
             state.isLoading=false;

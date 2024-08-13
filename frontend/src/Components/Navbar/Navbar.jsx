@@ -74,9 +74,8 @@ const Navbar = () => {
 
   return (
     <div
-      className={`navbar ${
-        navbarTransparent && isHome ? "transparent" : "solid"
-      }`}
+      className={`navbar ${navbarTransparent && isHome ? "transparent" : "solid"
+        }`}
       onMouseEnter={() => {
         setNavbarTransparent(false);
       }}
@@ -110,14 +109,16 @@ const Navbar = () => {
             <Link to="/">Home</Link>
           </li>
           <li
-            onMouseEnter={() => setMenMenuOpen(true)}
-            onMouseLeave={() => setMenMenuOpen(false)}
-            onClick={() => setMenMenuOpen(!menMenuOpen)}
+            // onMouseEnter={() => setMenMenuOpen(true)}
+            // onMouseLeave={() => setMenMenuOpen(false)}
+            // onClick={() => setMenMenuOpen(!menMenuOpen)}
             className="navLinks"
           >
             <div className="navLinks-header">
               {" "}
-              <span> Men</span>{" "}
+              <span             onMouseEnter={() => setMenMenuOpen(true)}
+            onMouseLeave={() => setMenMenuOpen(false)}
+            onClick={() => setMenMenuOpen(!menMenuOpen)}> Men</span>{" "}
               {menMenuOpen ? (
                 <IoIosArrowUp className="navLinks-header-icons" />
               ) : (
@@ -202,7 +203,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -211,11 +211,9 @@ const Navbar = () => {
                       <Link to={"/category/men_joggers"}> Joggers </Link>
                     </li>
                     <li
-                      onClick={[
-                        () => {
+                      onClick={[() => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -228,7 +226,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -241,7 +238,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -257,7 +253,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -270,7 +265,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -288,7 +282,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -301,7 +294,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -314,7 +306,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -327,7 +318,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -340,7 +330,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -353,7 +342,6 @@ const Navbar = () => {
                         () => {
                           setMenMenuOpen(false);
                         },
-                        ,
                         () => {
                           setSideMenuOpen(false);
                         },
@@ -367,14 +355,16 @@ const Navbar = () => {
             )}
           </li>
           <li
-            onMouseEnter={() => setWomenMenuOpen(true)}
-            onMouseLeave={() => setWomenMenuOpen(false)}
-            onClick={() => setWomenMenuOpen(!womenMenuOpen)}
+            // onMouseEnter={() => setWomenMenuOpen(true)}
+            // onMouseLeave={() => setWomenMenuOpen(false)}
+            // onClick={() => setWomenMenuOpen(!womenMenuOpen)}
             className="navLinks"
           >
             <div className="navLinks-header">
               {" "}
-              Women{" "}
+              <span  onMouseEnter={() => setWomenMenuOpen(true)}
+            onMouseLeave={() => setWomenMenuOpen(false)}
+            onClick={() => setWomenMenuOpen(!womenMenuOpen)}> Women</span>
               {womenMenuOpen ? (
                 <IoIosArrowUp className="navLinks-header-icons" />
               ) : (
@@ -650,9 +640,9 @@ const Navbar = () => {
               }}
             >
               {/* {isAuthenticated && <li className="side-menu-logout" onClick={[()=>{setSideMenuOpen(false)},() => {navigate("/your-order")}]}> */}
-              {/* <Link to="/your-order" > */}
+              <Link to="/your-order" >
               Your Orders
-              {/* </Link> */}
+              </Link>
             </li>
           )}
         </ul>

@@ -20,10 +20,20 @@ import ChangePassOTP from './Components/Auth/ChangePassOTP';
 import Footer from './Components/Footer/Footer';
 import PrivateRoutes from './Router/PrivateRoutes';
 import { toast } from 'react-toastify';
+import setLogoutTimer from './Utils/JwtExpireVerify';
 
 
 function App() {
   const dispatch = useDispatch();
+  // const { jwt } = useSelector((state) => state.auth);
+  const jwt = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+
+
+    useEffect(() => {
+        if (jwt) {
+            setLogoutTimer(dispatch, jwt);
+        }
+    }, [jwt, dispatch]);
 
   useEffect(() => {
     dispatch(fetchCart());

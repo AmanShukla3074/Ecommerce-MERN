@@ -168,8 +168,8 @@ const OrderDetails = () => {
           })}
         </div> */}
         <div className="review-modal-btns">
-        <button onClick={handleReviewSubmit} className='rate-review-btn'>Submit Review</button>
         <button onClick={closeModal} className='rate-review-btn'>Close</button>
+        <button onClick={handleReviewSubmit} className='rate-review-btn'>Submit Review</button>
         </div>
       </Modal>
     </div>
