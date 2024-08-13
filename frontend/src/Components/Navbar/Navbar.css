@@ -156,9 +156,12 @@
   background-color: black;
   border: none;
   color: white;
-  padding: 8px 12px;
+  padding: 7px;
   border-radius: 0 4px 4px 0;
   cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 }
 
 .cart-icon-container {
@@ -290,7 +293,7 @@
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px 0 0 4px;
-    width: 190px;
+    width: 180px;
   }
 
   .cart-icon {

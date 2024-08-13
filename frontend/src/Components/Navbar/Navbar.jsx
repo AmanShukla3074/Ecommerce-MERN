@@ -9,6 +9,7 @@ import { IoMdClose } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { FiMenu } from "react-icons/fi";
+import { FaSearch } from "react-icons/fa";
 
 import { IoIosArrowDown } from "react-icons/io";
 import { IoIosArrowUp } from "react-icons/io";
@@ -68,8 +69,8 @@ const Navbar = () => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    navigate(`/search/${searchQuery}`);
-    console.log("Search query:", searchQuery);
+    if(searchQuery.length > 0){
+    navigate(`/search/${searchQuery}`);}
   };
 
   return (
@@ -658,7 +659,7 @@ const Navbar = () => {
                 onChange={handleSearchChange}
                 placeholder="Search..."
               />
-              <button type="submit">Search</button>
+              <button type="submit"><FaSearch/></button>
             </form>
           )}
 
