@@ -10,7 +10,7 @@ E-Shop is an E-commerce Website that provides a seamless shopping experience for
 
 ⚠️ **Important Notice:**
 
-Please be aware that the API response time might be slow, and product rendering may take a few seconds. This is because the backend is hosted on Render's free tier, which may introduce latency, especially when the server is waking up from an idle state.
+Please be aware that the **API response time might be slow**, and product rendering may take a few seconds. This is because the backend is hosted on Render's free tier, which may introduce latency, especially when the server is waking up from an idle state.
 
 **Reason for Slow API Response:**
 - The backend of this project is deployed on [Render](https://render.com/) using the free tier. Free-tier services typically experience increased latency due to limited resources and the possibility of the server going into a "sleep" mode when not in use. When the server is accessed after being idle, it takes some time to wake up, leading to slower API responses.
@@ -87,11 +87,27 @@ Please be aware that the API response time might be slow, and product rendering 
 | ![Screenshot 2024-08-21 160755](https://github.com/user-attachments/assets/28742360-a223-4aa8-b0ec-b48622ab99dc) | ![Screenshot 2024-08-21 160813](https://github.com/user-attachments/assets/e32c00e1-02cf-453c-9aea-ca624c6d1ea8) |
 | Order Details | Rate and Review Ordered Product |
 
-<!-- 
+
 ### Tablet
 | ![Screenshot 2024-08-21 165327](https://github.com/user-attachments/assets/2d7e6470-8c04-49e9-9fed-be1da0b760a7) | ![Screenshot 2024-08-21 165421](https://github.com/user-attachments/assets/00534a19-16b4-41ca-845f-25a239c47e4b) | ![Screenshot 2024-08-21 165455](https://github.com/user-attachments/assets/dfb31ff3-6951-4f34-8ec5-9ba70229891e) |
 |:---:|:---:|:---:|
 | Registration | Login | OTP |
 | ![Screenshot 2024-08-21 165557](https://github.com/user-attachments/assets/1d469f51-cb15-4296-8529-38ece823f63c) | ![Screenshot 2024-08-21 165625](https://github.com/user-attachments/assets/aa6256dc-5256-49fd-ab5c-927d6bd76900) | ![Screenshot 2024-08-21 165642](https://github.com/user-attachments/assets/338f3619-fc62-4145-a993-8a2d573ab289) |
 | Home | Product Details | Cart |
- -->
+
+
+#### Payment
+
+| ![Screenshot 2024-08-21 223134](https://github.com/user-attachments/assets/0479dfe5-9136-48a7-bd16-e8221436ff63) | ![Screenshot 2024-08-21 223143](https://github.com/user-attachments/assets/99cb15e2-a5d4-4355-8653-4d8a9d09d2af) | ![Screenshot 2024-08-21 223153](https://github.com/user-attachments/assets/50e96321-e5e2-4742-9282-8b9faa9dec5d) |
+|:---:|:---:|:---:|
+| Add Address | Select Address | Order Summary |
+| ![Screenshot 2024-08-21 223214](https://github.com/user-attachments/assets/d7f04536-501c-4c85-b392-9d74a7efa942) | ![Screenshot 2024-08-21 223240](https://github.com/user-attachments/assets/aedcb34e-7f83-4597-b50c-85b8624d4696) |  
+| Razorpay 1 | Razorpay 2 |
+
+#### Order
+
+| ![Screenshot 2024-08-21 223914](https://github.com/user-attachments/assets/06ae01a9-4ca4-4fdf-837e-039a950ecdf3) | ![Screenshot 2024-08-21 223935](https://github.com/user-attachments/assets/e5888d84-47d3-4c8c-a364-787d04ec77e8) | ![Screenshot 2024-08-21 223943](https://github.com/user-attachments/assets/8de520f8-c61b-4f5d-813d-1521e3db995b) |
+|:---:|:---:|:---:|
+| Image 1 | Image 2 | Image 3 |
+| ![Screenshot 2024-08-21 223958](https://github.com/user-attachments/assets/54d98eb1-f6fb-4a5e-b643-cbb9f7e13755) | ![Screenshot 2024-08-21 224011](https://github.com/user-attachments/assets/c150c601-1d37-442b-be56-1600284e77d0) | |
+| Image 4 | Image 5 |  |

@@ -14,6 +14,8 @@ export const registerUser=createAsyncThunk('registerUser',async(userData,thunkAP
 export const registerUserverify=createAsyncThunk('registerUserverify',async(userData,thunkAPI)=>{
     try {
         const response= await axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/verify-otp-register`,userData);
+        const token = response.data.token;
+        setLogoutTimer(thunkAPI.dispatch, token);
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -33,6 +35,8 @@ export const loginUser=createAsyncThunk('loginUser',async(userData,thunkAPI)=>{
 export const loginUserverify=createAsyncThunk('loginUserverify',async(userData,thunkAPI)=>{
     try {
         const response= await axios.post(`${process.env.REACT_APP_BACKEND_API}/auth/verify-otp-login`,userData);
+        const token = response.data.token;
+        setLogoutTimer(thunkAPI.dispatch, token);
         return response.data
     } catch (error) {
         return thunkAPI.rejectWithValue(error.response.data)
@@ -126,7 +130,7 @@ const authReducer = createSlice({
             state.user = action.payload;
             state.jwt = action.payload.token;
             localStorage.setItem("user", JSON.stringify(action.payload));
-            setLogoutTimer(action.asyncThunk.dispatch, action.payload.token);
+            // setLogoutTimer(action.asyncThunk.dispatch, action.payload.token);
         })
         .addCase(registerUserverify.rejected,(state,action)=>{
             state.isLoading=false;
@@ -157,7 +161,7 @@ const authReducer = createSlice({
             state.user = action.payload;
             state.jwt = action.payload.token;
             localStorage.setItem("user", JSON.stringify(action.payload));
-            setLogoutTimer(action.asyncThunk.dispatch, action.payload.token);
+            // setLogoutTimer(action.asyncThunk.dispatch, action.payload.token);
         })
         .addCase(loginUserverify.rejected,(state,action)=>{
             state.isLoading=false;

@@ -110,15 +110,13 @@ const Navbar = () => {
             <Link to="/">Home</Link>
           </li>
           <li
-            // onMouseEnter={() => setMenMenuOpen(true)}
-            // onMouseLeave={() => setMenMenuOpen(false)}
-            // onClick={() => setMenMenuOpen(!menMenuOpen)}
+            onMouseEnter={() => setMenMenuOpen(true)}
+            onMouseLeave={() => setMenMenuOpen(false)}
             className="navLinks"
           >
             <div className="navLinks-header">
               {" "}
-              <span             onMouseEnter={() => setMenMenuOpen(true)}
-            onMouseLeave={() => setMenMenuOpen(false)}
+              <span             
             onClick={() => setMenMenuOpen(!menMenuOpen)}> Men</span>{" "}
               {menMenuOpen ? (
                 <IoIosArrowUp className="navLinks-header-icons" />
@@ -356,15 +354,14 @@ const Navbar = () => {
             )}
           </li>
           <li
-            // onMouseEnter={() => setWomenMenuOpen(true)}
-            // onMouseLeave={() => setWomenMenuOpen(false)}
+            onMouseEnter={() => setWomenMenuOpen(true)}
+            onMouseLeave={() => setWomenMenuOpen(false)}
             // onClick={() => setWomenMenuOpen(!womenMenuOpen)}
             className="navLinks"
           >
             <div className="navLinks-header">
               {" "}
-              <span  onMouseEnter={() => setWomenMenuOpen(true)}
-            onMouseLeave={() => setWomenMenuOpen(false)}
+              <span  
             onClick={() => setWomenMenuOpen(!womenMenuOpen)}> Women</span>
               {womenMenuOpen ? (
                 <IoIosArrowUp className="navLinks-header-icons" />
@@ -705,7 +702,7 @@ const Navbar = () => {
             </div> */}
             {dropdownOpen && (
               <div className="dropdown-menu">
-                <p>{user.user.firstName + user.user.lastName}</p>
+                <p>{user?.user.firstName}</p>
                 <Link to="/your-order" onClick={() => setDropdownOpen(false)}>
                   Your Orders
                 </Link>

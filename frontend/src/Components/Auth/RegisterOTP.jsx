@@ -44,7 +44,7 @@ const RegisterOTP = () => {
           onChange={handleChange}
           placeholder="OTP"
         />
-        <button type="submit" className="form-btn" disable={isLoading}>
+        <button type="submit" className="form-btn" disabled={isLoading}>
           Verify OTP
         </button>
         {error && (
