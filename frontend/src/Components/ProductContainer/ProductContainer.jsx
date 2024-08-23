@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Item from '../Item/Item';
 import './ProductContainer.css'
+import loader from '../Imgs/ring-resize.svg'
 const ProductContainer = (props) => {
   const [data, setData] = useState({ content: [] });
 
@@ -46,7 +47,8 @@ const ProductContainer = (props) => {
             />
           ))
         ) : (
-          <p>No products found</p>
+          <img src={loader} alt="" className='loader' />
+          //<p>No products found</p> 
         )}
         {/* </div> */}
       </div>  

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "./ProductDetails.css";
 import { addItemToCart } from "../../features/cart/cartSlice";
-
+import loader from '../Imgs/ring-resize.svg'
 const ProductDetails = () => {
   const { productId } = useParams();
   const [data, setData] = React.useState(null);
@@ -91,6 +91,7 @@ const ProductDetails = () => {
 
   return (
     <>
+    {data==null ? <img src={loader} alt="" className='loader-prod-details' /> :<> 
       <div className="product-details-main">
         <div className="product-details-img-container">
           <div className="product-img-gallery">
@@ -202,6 +203,8 @@ const ProductDetails = () => {
         </div>
 
       </div>
+</>
+        }
     </>
   );
 };

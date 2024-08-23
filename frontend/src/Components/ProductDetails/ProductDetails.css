@@ -1,3 +1,8 @@
+.loader-prod-details{
+  margin: 300px auto;
+  display: flex;
+}
+
 .product-details-main {
   width: 80%;
   margin: 120px auto;
